@@ -155,7 +155,7 @@ export function ReportPopup({ report, onClose, onVoteSuccess, onReportDeleted, o
     },
     road_blockade: {
       dot: "bg-amber-500 shadow-[0_0_10px_rgba(245,158,11,0.4)]",
-      title: "Bloqueo",
+      title: "Narcobloqueo",
       link: "text-amber-600 hover:text-amber-500",
     },
     cartel_activity: {
@@ -163,8 +163,13 @@ export function ReportPopup({ report, onClose, onVoteSuccess, onReportDeleted, o
       title: "Actividad del Cartel",
       link: "text-violet-600 hover:text-violet-500",
     },
+    building_fire: {
+      dot: "bg-orange-500 shadow-[0_0_10px_rgba(249,115,22,0.4)]",
+      title: "Quema de Edificio",
+      link: "text-orange-600 hover:text-orange-500",
+    },
   };
-  const config = typeConfig[report.type] ?? typeConfig.cartel_activity;
+  const config = typeConfig[report.type] ?? typeConfig.building_fire;
 
   const statusLabels: Record<string, string> = {
     unconfirmed: "Sin confirmar",
@@ -369,8 +374,9 @@ export function ReportPopup({ report, onClose, onVoteSuccess, onReportDeleted, o
                     className="w-full px-3 py-2 rounded-lg border border-zinc-300 font-mono text-sm text-zinc-900 bg-white focus:outline-none focus:ring-2 focus:ring-zinc-400"
                   >
                     <option value="armed_confrontation">Balacera</option>
-                    <option value="road_blockade">Bloqueo</option>
+                    <option value="road_blockade">Narcobloqueo</option>
                     <option value="cartel_activity">Actividad del Cartel</option>
+                    <option value="building_fire">Quema de Edificio</option>
                   </select>
                 </div>
                 <div>

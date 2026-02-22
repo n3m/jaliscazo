@@ -118,7 +118,7 @@ export function ReportForm({
             <p className="font-mono text-xs text-zinc-400 tracking-widest uppercase mb-3">
               Tipo de reporte
             </p>
-            <div className="grid grid-cols-3 gap-3">
+            <div className="grid grid-cols-2 gap-3">
               <button
                 onClick={() => setType("armed_confrontation")}
                 className={`flex flex-col items-center justify-center gap-2 p-4 rounded-xl border-2 transition-all min-h-[80px] active:scale-95 ${
@@ -155,7 +155,7 @@ export function ReportForm({
                       : "text-zinc-500"
                   }`}
                 >
-                  Bloqueo
+                  Narcobloqueo
                 </span>
               </button>
 
@@ -176,6 +176,26 @@ export function ReportForm({
                   }`}
                 >
                   Cartel
+                </span>
+              </button>
+
+              <button
+                onClick={() => setType("building_fire")}
+                className={`flex flex-col items-center justify-center gap-2 p-4 rounded-xl border-2 transition-all min-h-[80px] active:scale-95 ${
+                  type === "building_fire"
+                    ? "border-orange-500 bg-orange-50 shadow-[0_0_20px_rgba(249,115,22,0.12)]"
+                    : "border-zinc-200 bg-zinc-50 hover:border-zinc-300"
+                }`}
+              >
+                <span className="text-3xl">🔥</span>
+                <span
+                  className={`font-display text-base font-bold tracking-wide uppercase ${
+                    type === "building_fire"
+                      ? "text-orange-600"
+                      : "text-zinc-500"
+                  }`}
+                >
+                  Quema
                 </span>
               </button>
             </div>
@@ -220,7 +240,9 @@ export function ReportForm({
                   ? "bg-red-600 text-white shadow-[0_4px_20px_rgba(239,68,68,0.3)] hover:bg-red-500"
                   : type === "cartel_activity"
                     ? "bg-violet-600 text-white shadow-[0_4px_20px_rgba(139,92,246,0.3)] hover:bg-violet-500"
-                    : "bg-amber-500 text-white shadow-[0_4px_20px_rgba(245,158,11,0.3)] hover:bg-amber-400"
+                    : type === "building_fire"
+                      ? "bg-orange-500 text-white shadow-[0_4px_20px_rgba(249,115,22,0.3)] hover:bg-orange-400"
+                      : "bg-amber-500 text-white shadow-[0_4px_20px_rgba(245,158,11,0.3)] hover:bg-amber-400"
             }`}
           >
             {submitting ? "Enviando..." : "Reportar"}

@@ -17,8 +17,9 @@ export function ReportMarker({ report, onClick }: ReportMarkerProps) {
     armed_confrontation: "#ef4444",
     road_blockade: "#f59e0b",
     cartel_activity: "#8b5cf6",
+    building_fire: "#f97316",
   };
-  const baseColor = colorMap[report.type] ?? "#8b5cf6";
+  const baseColor = colorMap[report.type] ?? "#f97316";
   const radius = isConfirmed ? 14 : 9;
   const opacity = isConfirmed ? 0.95 : 0.6;
   const weight = isConfirmed ? 3 : 1.5;

@@ -98,9 +98,9 @@ export async function POST(request: NextRequest) {
     );
   }
 
-  if (!["armed_confrontation", "road_blockade", "cartel_activity"].includes(type)) {
+  if (!["armed_confrontation", "road_blockade", "cartel_activity", "building_fire"].includes(type)) {
     return NextResponse.json(
-      { error: "type must be armed_confrontation, road_blockade, or cartel_activity" },
+      { error: "type must be armed_confrontation, road_blockade, cartel_activity, or building_fire" },
       { status: 400 }
     );
   }

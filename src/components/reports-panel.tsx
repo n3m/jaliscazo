@@ -90,24 +90,26 @@ export function ReportsPanel({
                   armed_confrontation: "border-l-red-500",
                   road_blockade: "border-l-amber-500",
                   cartel_activity: "border-l-violet-500",
+                  building_fire: "border-l-orange-500",
                 };
                 const titleMap: Record<string, string> = {
                   armed_confrontation: "Balacera",
-                  road_blockade: "Bloqueo",
+                  road_blockade: "Narcobloqueo",
                   cartel_activity: "Cartel",
+                  building_fire: "Quema",
                 };
                 return (
                   <button
                     key={report.id}
                     onClick={() => onSelectReport(report)}
                     className={`w-full text-left px-4 py-3 hover:bg-zinc-50 active:bg-zinc-100 transition-colors cursor-pointer border-l-[3px] min-h-[44px] min-w-0 ${
-                      borderMap[report.type] ?? "border-l-violet-500"
+                      borderMap[report.type] ?? "border-l-orange-500"
                     }`}
                   >
                     {/* Type + time */}
                     <div className="flex items-center justify-between gap-2">
                       <span className="font-display font-bold text-base text-zinc-900 uppercase tracking-wide">
-                        {titleMap[report.type] ?? "Cartel"}
+                        {titleMap[report.type] ?? "Quema"}
                       </span>
                       <span className="font-mono text-xs text-zinc-400 shrink-0">
                         {timeAgo(report.createdAt)}

@@ -15,6 +15,13 @@
       "when": 1771792799414,
       "tag": "0001_cloudy_unus",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1771796040531,
+      "tag": "0002_shocking_boom_boom",
+      "breakpoints": true
     }
   ]
 }

@@ -252,13 +252,19 @@ function MapInner() {
             <div className="flex items-center gap-1.5">
               <span className="w-2.5 h-2.5 rounded-full bg-amber-500 shadow-[0_0_6px_rgba(245,158,11,0.5)]" />
               <span className="font-mono text-xs text-zinc-600 uppercase">
-                Bloqueo
+                Narcobloqueo
               </span>
             </div>
             <div className="flex items-center gap-1.5">
               <span className="w-2.5 h-2.5 rounded-full bg-violet-500 shadow-[0_0_6px_rgba(139,92,246,0.5)]" />
               <span className="font-mono text-xs text-zinc-600 uppercase">
                 Cartel
+              </span>
+            </div>
+            <div className="flex items-center gap-1.5">
+              <span className="w-2.5 h-2.5 rounded-full bg-orange-500 shadow-[0_0_6px_rgba(249,115,22,0.5)]" />
+              <span className="font-mono text-xs text-zinc-600 uppercase">
+                Quema
               </span>
             </div>
           </div>

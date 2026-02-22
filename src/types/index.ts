@@ -1,4 +1,4 @@
-export type ReportType = "armed_confrontation" | "road_blockade" | "cartel_activity";
+export type ReportType = "armed_confrontation" | "road_blockade" | "cartel_activity" | "building_fire";
 export type ReportStatus = "unconfirmed" | "confirmed" | "denied" | "expired";
 export type VoteType = "confirm" | "deny";
 
