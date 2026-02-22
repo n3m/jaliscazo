@@ -14,6 +14,8 @@ import { ReportForm } from "./report-form";
 import { ReportPopup } from "./report-popup";
 import { ReportsPanel } from "./reports-panel";
 import { WelcomeDialog } from "./welcome-dialog";
+import { AdminProvider, useAdmin } from "./admin-context";
+import { AdminLoginDialog } from "./admin-login-dialog";
 
 const GUADALAJARA_CENTER: [number, number] = [20.6597, -103.3496];
 const POLL_INTERVAL = 20_000;
@@ -50,6 +52,15 @@ function MapController({ mapRef }: { mapRef: React.MutableRefObject<L.Map | null
 }
 
 export function Map() {
+  return (
+    <AdminProvider>
+      <MapInner />
+    </AdminProvider>
+  );
+}
+
+function MapInner() {
+  const { isAdmin, logout } = useAdmin();
   const [reports, setReports] = useState<Report[]>([]);
   const [selectedReport, setSelectedReport] = useState<Report | null>(null);
   const [formPosition, setFormPosition] = useState<{
@@ -59,8 +70,10 @@ export function Map() {
   const [lastUpdate, setLastUpdate] = useState<Date>(new Date());
   const [panelOpen, setPanelOpen] = useState(false);
   const [showWelcome, setShowWelcome] = useState(false);
+  const [showAdminLogin, setShowAdminLogin] = useState(false);
   const boundsRef = useRef<L.LatLngBounds | null>(null);
   const mapRef = useRef<L.Map | null>(null);
+  const longPressRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
     if (!localStorage.getItem("jaliscazo_welcome_seen")) {
@@ -191,10 +204,27 @@ export function Map() {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
               </svg>
             </button>
-            <div>
-              <h1 className="font-display text-2xl font-bold tracking-[0.2em] text-zinc-900 uppercase">
-                Jaliscazo
-              </h1>
+            <div
+              style={{ touchAction: "none" }}
+              onPointerDown={() => {
+                longPressRef.current = setTimeout(() => {
+                  if (isAdmin) {
+                    logout();
+                  } else {
+                    setShowAdminLogin(true);
+                  }
+                }, 3000);
+              }}
+              onPointerUp={() => { if (longPressRef.current) clearTimeout(longPressRef.current); }}
+              onPointerLeave={() => { if (longPressRef.current) clearTimeout(longPressRef.current); }}
+              onPointerCancel={() => { if (longPressRef.current) clearTimeout(longPressRef.current); }}
+            >
+              <div className="flex items-center gap-1.5">
+                <h1 className="font-display text-2xl font-bold tracking-[0.2em] text-zinc-900 uppercase">
+                  Jaliscazo
+                </h1>
+                {isAdmin && <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />}
+              </div>
               <p className="font-mono text-xs text-zinc-500 tracking-widest uppercase">
                 Reportes en tiempo real
               </p>
@@ -266,6 +296,9 @@ export function Map() {
 
       {/* Welcome dialog */}
       {showWelcome && <WelcomeDialog onClose={handleWelcomeClose} />}
+
+      {/* Admin login dialog */}
+      {showAdminLogin && <AdminLoginDialog onClose={() => setShowAdminLogin(false)} />}
     </div>
   );
 }
