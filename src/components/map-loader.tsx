@@ -7,7 +7,7 @@ const Map = dynamic(
   {
     ssr: false,
     loading: () => (
-      <div className="h-dvh w-full bg-[#f8f8f8] flex items-center justify-center">
+      <div className="h-full w-full bg-[#f8f8f8] flex items-center justify-center">
         <div className="text-center">
           <h1 className="font-[var(--font-display)] text-2xl font-bold tracking-[0.3em] text-zinc-900 uppercase mb-2">
             Jaliscazo
