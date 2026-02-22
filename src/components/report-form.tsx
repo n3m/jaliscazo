@@ -85,7 +85,7 @@ export function ReportForm({
     <>
       {/* Backdrop */}
       <div
-        className={`absolute inset-0 z-[1001] bg-black/40 transition-opacity duration-200 ${
+        className={`absolute inset-0 z-[1001] bg-black/20 transition-opacity duration-200 ${
           visible ? "opacity-100" : "opacity-0"
         }`}
         onClick={handleClose}
@@ -97,42 +97,42 @@ export function ReportForm({
           visible ? "translate-y-0" : "translate-y-full"
         }`}
       >
-        <div className="bg-zinc-950 border-t border-zinc-800 rounded-t-2xl p-5 pb-8 max-w-lg mx-auto">
+        <div className="bg-white border-t border-zinc-200 rounded-t-2xl p-5 pb-8 max-w-lg mx-auto shadow-[0_-4px_30px_rgba(0,0,0,0.1)]">
           {/* Handle bar */}
           <div className="flex justify-center mb-4">
-            <div className="w-10 h-1 rounded-full bg-zinc-700" />
+            <div className="w-10 h-1 rounded-full bg-zinc-300" />
           </div>
 
           {/* Location */}
           <div className="mb-5">
-            <p className="font-mono text-[10px] text-zinc-500 tracking-widest uppercase mb-1">
+            <p className="font-mono text-[10px] text-zinc-400 tracking-widest uppercase mb-1">
               Ubicaci&oacute;n
             </p>
-            <p className="font-mono text-xs text-zinc-300 truncate">
+            <p className="font-mono text-xs text-zinc-700 truncate">
               {address || `${latitude.toFixed(5)}, ${longitude.toFixed(5)}`}
             </p>
           </div>
 
           {/* Type selection */}
           <div className="mb-5">
-            <p className="font-mono text-[10px] text-zinc-500 tracking-widest uppercase mb-3">
+            <p className="font-mono text-[10px] text-zinc-400 tracking-widest uppercase mb-3">
               Tipo de reporte
             </p>
-            <div className="grid grid-cols-2 gap-3">
+            <div className="grid grid-cols-3 gap-3">
               <button
                 onClick={() => setType("armed_confrontation")}
                 className={`flex flex-col items-center justify-center gap-2 p-4 rounded-xl border-2 transition-all min-h-[80px] active:scale-95 ${
                   type === "armed_confrontation"
-                    ? "border-red-500 bg-red-500/10 shadow-[0_0_20px_rgba(239,68,68,0.15)]"
-                    : "border-zinc-800 bg-zinc-900 hover:border-zinc-700"
+                    ? "border-red-500 bg-red-50 shadow-[0_0_20px_rgba(239,68,68,0.12)]"
+                    : "border-zinc-200 bg-zinc-50 hover:border-zinc-300"
                 }`}
               >
                 <span className="text-2xl">💥</span>
                 <span
                   className={`font-display text-sm font-bold tracking-wide uppercase ${
                     type === "armed_confrontation"
-                      ? "text-red-400"
-                      : "text-zinc-400"
+                      ? "text-red-600"
+                      : "text-zinc-500"
                   }`}
                 >
                   Balacera
@@ -143,19 +143,39 @@ export function ReportForm({
                 onClick={() => setType("road_blockade")}
                 className={`flex flex-col items-center justify-center gap-2 p-4 rounded-xl border-2 transition-all min-h-[80px] active:scale-95 ${
                   type === "road_blockade"
-                    ? "border-amber-500 bg-amber-500/10 shadow-[0_0_20px_rgba(245,158,11,0.15)]"
-                    : "border-zinc-800 bg-zinc-900 hover:border-zinc-700"
+                    ? "border-amber-500 bg-amber-50 shadow-[0_0_20px_rgba(245,158,11,0.12)]"
+                    : "border-zinc-200 bg-zinc-50 hover:border-zinc-300"
                 }`}
               >
                 <span className="text-2xl">🚧</span>
                 <span
                   className={`font-display text-sm font-bold tracking-wide uppercase ${
                     type === "road_blockade"
-                      ? "text-amber-400"
-                      : "text-zinc-400"
+                      ? "text-amber-600"
+                      : "text-zinc-500"
                   }`}
                 >
                   Bloqueo
+                </span>
+              </button>
+
+              <button
+                onClick={() => setType("cartel_activity")}
+                className={`flex flex-col items-center justify-center gap-2 p-4 rounded-xl border-2 transition-all min-h-[80px] active:scale-95 ${
+                  type === "cartel_activity"
+                    ? "border-violet-500 bg-violet-50 shadow-[0_0_20px_rgba(139,92,246,0.12)]"
+                    : "border-zinc-200 bg-zinc-50 hover:border-zinc-300"
+                }`}
+              >
+                <span className="text-2xl">🔫</span>
+                <span
+                  className={`font-display text-sm font-bold tracking-wide uppercase ${
+                    type === "cartel_activity"
+                      ? "text-violet-600"
+                      : "text-zinc-500"
+                  }`}
+                >
+                  Cartel
                 </span>
               </button>
             </div>
@@ -163,7 +183,7 @@ export function ReportForm({
 
           {/* Description */}
           <div className="mb-4">
-            <label className="font-mono text-[10px] text-zinc-500 tracking-widest uppercase block mb-2">
+            <label className="font-mono text-[10px] text-zinc-400 tracking-widest uppercase block mb-2">
               Descripci&oacute;n (opcional)
             </label>
             <textarea
@@ -171,13 +191,13 @@ export function ReportForm({
               onChange={(e) => setDescription(e.target.value)}
               placeholder="&iquest;Qu&eacute; est&aacute; pasando?"
               rows={2}
-              className="w-full bg-zinc-900 border border-zinc-800 rounded-lg px-3 py-2 font-mono text-sm text-zinc-200 placeholder:text-zinc-600 focus:outline-none focus:border-zinc-600 resize-none"
+              className="w-full bg-zinc-50 border border-zinc-200 rounded-lg px-3 py-2 font-mono text-sm text-zinc-800 placeholder:text-zinc-400 focus:outline-none focus:border-zinc-400 resize-none"
             />
           </div>
 
           {/* Source URL */}
           <div className="mb-6">
-            <label className="font-mono text-[10px] text-zinc-500 tracking-widest uppercase block mb-2">
+            <label className="font-mono text-[10px] text-zinc-400 tracking-widest uppercase block mb-2">
               Enlace fuente (opcional)
             </label>
             <input
@@ -185,7 +205,7 @@ export function ReportForm({
               value={sourceUrl}
               onChange={(e) => setSourceUrl(e.target.value)}
               placeholder="https://twitter.com/..."
-              className="w-full bg-zinc-900 border border-zinc-800 rounded-lg px-3 py-2 font-mono text-sm text-zinc-200 placeholder:text-zinc-600 focus:outline-none focus:border-zinc-600"
+              className="w-full bg-zinc-50 border border-zinc-200 rounded-lg px-3 py-2 font-mono text-sm text-zinc-800 placeholder:text-zinc-400 focus:outline-none focus:border-zinc-400"
             />
           </div>
 
@@ -195,10 +215,12 @@ export function ReportForm({
             disabled={!type || submitting}
             className={`w-full py-3.5 rounded-xl font-display font-bold text-sm tracking-widest uppercase transition-all active:scale-[0.98] ${
               !type || submitting
-                ? "bg-zinc-800 text-zinc-600 cursor-not-allowed"
+                ? "bg-zinc-200 text-zinc-400 cursor-not-allowed"
                 : type === "armed_confrontation"
-                  ? "bg-red-600 text-white shadow-[0_0_30px_rgba(239,68,68,0.3)] hover:bg-red-500"
-                  : "bg-amber-600 text-white shadow-[0_0_30px_rgba(245,158,11,0.3)] hover:bg-amber-500"
+                  ? "bg-red-600 text-white shadow-[0_4px_20px_rgba(239,68,68,0.3)] hover:bg-red-500"
+                  : type === "cartel_activity"
+                    ? "bg-violet-600 text-white shadow-[0_4px_20px_rgba(139,92,246,0.3)] hover:bg-violet-500"
+                    : "bg-amber-500 text-white shadow-[0_4px_20px_rgba(245,158,11,0.3)] hover:bg-amber-400"
             }`}
           >
             {submitting ? "Enviando..." : "Reportar"}

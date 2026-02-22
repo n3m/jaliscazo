@@ -86,19 +86,28 @@ export function ReportsPanel({
           ) : (
             <div className="divide-y divide-zinc-100">
               {sorted.map((report) => {
-                const isArmed = report.type === "armed_confrontation";
+                const borderMap: Record<string, string> = {
+                  armed_confrontation: "border-l-red-500",
+                  road_blockade: "border-l-amber-500",
+                  cartel_activity: "border-l-violet-500",
+                };
+                const titleMap: Record<string, string> = {
+                  armed_confrontation: "Balacera",
+                  road_blockade: "Bloqueo",
+                  cartel_activity: "Cartel",
+                };
                 return (
                   <button
                     key={report.id}
                     onClick={() => onSelectReport(report)}
                     className={`w-full text-left px-4 py-3 hover:bg-zinc-50 active:bg-zinc-100 transition-colors cursor-pointer border-l-[3px] min-h-[44px] min-w-0 ${
-                      isArmed ? "border-l-red-500" : "border-l-amber-500"
+                      borderMap[report.type] ?? "border-l-violet-500"
                     }`}
                   >
                     {/* Type + time */}
                     <div className="flex items-center justify-between gap-2">
                       <span className="font-display font-bold text-sm text-zinc-900 uppercase tracking-wide">
-                        {isArmed ? "Balacera" : "Bloqueo"}
+                        {titleMap[report.type] ?? "Cartel"}
                       </span>
                       <span className="font-mono text-[10px] text-zinc-400 shrink-0">
                         {timeAgo(report.createdAt)}

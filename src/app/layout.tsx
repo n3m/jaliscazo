@@ -42,7 +42,7 @@ export default function RootLayout({
   return (
     <html lang="es">
       <body
-        className={`${barlowCondensed.variable} ${shareTechMono.variable} antialiased bg-black text-white overflow-hidden`}
+        className={`${barlowCondensed.variable} ${shareTechMono.variable} antialiased bg-[#f8f8f8] text-zinc-900 overflow-hidden`}
       >
         {children}
       </body>

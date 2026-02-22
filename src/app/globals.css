@@ -5,20 +5,19 @@
   --font-mono: var(--font-mono), "Share Tech Mono", monospace;
 }
 
-/* Force dark background */
 :root {
-  --background: #000000;
-  --foreground: #fafafa;
+  --background: #f8f8f8;
+  --foreground: #1a1a1a;
 }
 
 body {
-  background: #000;
-  color: #fafafa;
+  background: var(--background);
+  color: var(--foreground);
 }
 
-/* Leaflet overrides for dark theme */
+/* Leaflet overrides for light theme */
 .leaflet-container {
-  background: #0a0a0a;
+  background: #f0f0f0;
   font-family: var(--font-mono), monospace;
 }
 
@@ -26,16 +25,16 @@ body {
   display: none !important;
 }
 
-/* Marker animations */
+/* Marker animations — no transform (breaks Leaflet SVG positioning) */
 @keyframes marker-pulse {
   0%,
   100% {
-    opacity: 0.5;
-    transform: scale(1);
+    stroke-opacity: 0.4;
+    fill-opacity: 0.4;
   }
   50% {
-    opacity: 0.85;
-    transform: scale(1.15);
+    stroke-opacity: 1;
+    fill-opacity: 0.8;
   }
 }
 
@@ -51,7 +50,6 @@ body {
 
 .marker-pulse {
   animation: marker-pulse 2s ease-in-out infinite;
-  transform-origin: center;
 }
 
 .marker-glow {
@@ -68,7 +66,7 @@ body {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #333;
+  background: #ccc;
   border-radius: 2px;
 }
 

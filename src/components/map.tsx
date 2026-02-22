@@ -200,6 +200,12 @@ export function Map() {
                 Bloqueo
               </span>
             </div>
+            <div className="flex items-center gap-1.5">
+              <span className="w-2.5 h-2.5 rounded-full bg-violet-500 shadow-[0_0_6px_rgba(139,92,246,0.5)]" />
+              <span className="font-mono text-[10px] text-zinc-600 uppercase">
+                Cartel
+              </span>
+            </div>
           </div>
         </div>
       </div>

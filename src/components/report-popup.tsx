@@ -71,8 +71,24 @@ export function ReportPopup({ report, onClose, onVoteSuccess }: ReportPopupProps
     [report.id, onVoteSuccess]
   );
 
-  const isArmed = report.type === "armed_confrontation";
-  const accentColor = isArmed ? "red" : "amber";
+  const typeConfig: Record<string, { dot: string; title: string; link: string }> = {
+    armed_confrontation: {
+      dot: "bg-red-500 shadow-[0_0_10px_rgba(239,68,68,0.4)]",
+      title: "Balacera",
+      link: "text-red-600 hover:text-red-500",
+    },
+    road_blockade: {
+      dot: "bg-amber-500 shadow-[0_0_10px_rgba(245,158,11,0.4)]",
+      title: "Bloqueo",
+      link: "text-amber-600 hover:text-amber-500",
+    },
+    cartel_activity: {
+      dot: "bg-violet-500 shadow-[0_0_10px_rgba(139,92,246,0.4)]",
+      title: "Actividad del Cartel",
+      link: "text-violet-600 hover:text-violet-500",
+    },
+  };
+  const config = typeConfig[report.type] ?? typeConfig.cartel_activity;
 
   const statusLabels: Record<string, string> = {
     unconfirmed: "Sin confirmar",
@@ -82,16 +98,16 @@ export function ReportPopup({ report, onClose, onVoteSuccess }: ReportPopupProps
   };
 
   const statusColors: Record<string, string> = {
-    unconfirmed: "bg-zinc-700 text-zinc-300",
-    confirmed: "bg-emerald-900/80 text-emerald-300 shadow-[0_0_8px_rgba(16,185,129,0.2)]",
-    denied: "bg-rose-900/80 text-rose-300",
-    expired: "bg-zinc-800 text-zinc-500",
+    unconfirmed: "bg-zinc-200 text-zinc-600",
+    confirmed: "bg-emerald-100 text-emerald-700 shadow-[0_0_8px_rgba(16,185,129,0.15)]",
+    denied: "bg-rose-100 text-rose-700",
+    expired: "bg-zinc-100 text-zinc-400",
   };
 
   return (
     <>
       <div
-        className={`absolute inset-0 z-[1001] bg-black/40 transition-opacity duration-200 ${
+        className={`absolute inset-0 z-[1001] bg-black/20 transition-opacity duration-200 ${
           visible ? "opacity-100" : "opacity-0"
         }`}
         onClick={handleClose}
@@ -102,27 +118,23 @@ export function ReportPopup({ report, onClose, onVoteSuccess }: ReportPopupProps
           visible ? "translate-y-0" : "translate-y-full"
         }`}
       >
-        <div className="bg-zinc-950 border-t border-zinc-800 rounded-t-2xl p-5 pb-8 max-w-lg mx-auto">
+        <div className="bg-white border-t border-zinc-200 rounded-t-2xl p-5 pb-8 max-w-lg mx-auto shadow-[0_-4px_30px_rgba(0,0,0,0.1)]">
           {/* Handle */}
           <div className="flex justify-center mb-4">
-            <div className="w-10 h-1 rounded-full bg-zinc-700" />
+            <div className="w-10 h-1 rounded-full bg-zinc-300" />
           </div>
 
           {/* Header */}
           <div className="flex items-start justify-between mb-4">
             <div className="flex items-center gap-3">
               <span
-                className={`w-4 h-4 rounded-full ${
-                  isArmed
-                    ? "bg-red-500 shadow-[0_0_10px_rgba(239,68,68,0.5)]"
-                    : "bg-amber-500 shadow-[0_0_10px_rgba(245,158,11,0.5)]"
-                }`}
+                className={`w-4 h-4 rounded-full ${config.dot}`}
               />
               <div>
-                <h2 className="font-display font-bold text-white text-base uppercase tracking-wide">
-                  {isArmed ? "Balacera" : "Bloqueo"}
+                <h2 className="font-display font-bold text-zinc-900 text-base uppercase tracking-wide">
+                  {config.title}
                 </h2>
-                <p className="font-mono text-[10px] text-zinc-500">
+                <p className="font-mono text-[10px] text-zinc-400">
                   {timeAgo(report.createdAt)}
                 </p>
               </div>
@@ -138,7 +150,7 @@ export function ReportPopup({ report, onClose, onVoteSuccess }: ReportPopupProps
 
           {/* Description */}
           {report.description && (
-            <p className="font-mono text-sm text-zinc-300 mb-4 leading-relaxed">
+            <p className="font-mono text-sm text-zinc-700 mb-4 leading-relaxed">
               {report.description}
             </p>
           )}
@@ -149,11 +161,7 @@ export function ReportPopup({ report, onClose, onVoteSuccess }: ReportPopupProps
               href={report.sourceUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className={`inline-flex items-center gap-1.5 font-mono text-xs mb-4 ${
-                isArmed
-                  ? "text-red-400 hover:text-red-300"
-                  : "text-amber-400 hover:text-amber-300"
-              }`}
+              className={`inline-flex items-center gap-1.5 font-mono text-xs mb-4 ${config.link}`}
             >
               <svg
                 className="w-3.5 h-3.5"
@@ -173,25 +181,25 @@ export function ReportPopup({ report, onClose, onVoteSuccess }: ReportPopupProps
           )}
 
           {/* Vote counts */}
-          <div className="flex items-center gap-6 mb-5 py-3 border-y border-zinc-800">
+          <div className="flex items-center gap-6 mb-5 py-3 border-y border-zinc-200">
             <div className="flex items-center gap-2">
-              <span className="font-mono text-lg font-bold text-emerald-400">
+              <span className="font-mono text-lg font-bold text-emerald-600">
                 {report.confirmCount}
               </span>
-              <span className="font-mono text-[10px] text-zinc-500 uppercase tracking-wider">
+              <span className="font-mono text-[10px] text-zinc-400 uppercase tracking-wider">
                 confirman
               </span>
             </div>
             <div className="flex items-center gap-2">
-              <span className="font-mono text-lg font-bold text-rose-400">
+              <span className="font-mono text-lg font-bold text-rose-600">
                 {report.denyCount}
               </span>
-              <span className="font-mono text-[10px] text-zinc-500 uppercase tracking-wider">
+              <span className="font-mono text-[10px] text-zinc-400 uppercase tracking-wider">
                 niegan
               </span>
             </div>
             <div className="ml-auto">
-              <span className="font-mono text-[10px] text-zinc-600">
+              <span className="font-mono text-[10px] text-zinc-400">
                 Score: {report.score}
               </span>
             </div>
@@ -200,7 +208,7 @@ export function ReportPopup({ report, onClose, onVoteSuccess }: ReportPopupProps
           {/* Vote buttons or voted state */}
           {hasVoted ? (
             <div className="text-center py-3">
-              <p className="font-mono text-sm text-zinc-500">
+              <p className="font-mono text-sm text-zinc-400">
                 ✓ Ya votaste en este reporte
               </p>
             </div>
@@ -209,14 +217,14 @@ export function ReportPopup({ report, onClose, onVoteSuccess }: ReportPopupProps
               <button
                 onClick={() => handleVote("confirm")}
                 disabled={voting}
-                className="flex items-center justify-center gap-2 py-3.5 rounded-xl bg-emerald-900/40 border border-emerald-800/50 text-emerald-300 font-display font-bold text-sm tracking-widest uppercase transition-all hover:bg-emerald-900/60 active:scale-95 disabled:opacity-50 min-h-[48px]"
+                className="flex items-center justify-center gap-2 py-3.5 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-700 font-display font-bold text-sm tracking-widest uppercase transition-all hover:bg-emerald-100 active:scale-95 disabled:opacity-50 min-h-[48px]"
               >
                 Confirmar
               </button>
               <button
                 onClick={() => handleVote("deny")}
                 disabled={voting}
-                className="flex items-center justify-center gap-2 py-3.5 rounded-xl bg-rose-900/40 border border-rose-800/50 text-rose-300 font-display font-bold text-sm tracking-widest uppercase transition-all hover:bg-rose-900/60 active:scale-95 disabled:opacity-50 min-h-[48px]"
+                className="flex items-center justify-center gap-2 py-3.5 rounded-xl bg-rose-50 border border-rose-200 text-rose-700 font-display font-bold text-sm tracking-widest uppercase transition-all hover:bg-rose-100 active:scale-95 disabled:opacity-50 min-h-[48px]"
               >
                 Negar
               </button>
@@ -224,7 +232,7 @@ export function ReportPopup({ report, onClose, onVoteSuccess }: ReportPopupProps
           )}
 
           {voteError && (
-            <p className="font-mono text-xs text-rose-400 text-center mt-3">
+            <p className="font-mono text-xs text-rose-600 text-center mt-3">
               {voteError}
             </p>
           )}
