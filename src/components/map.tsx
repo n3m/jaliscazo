@@ -155,6 +155,18 @@ function MapInner() {
     setSelectedReport(updatedReport);
   }, []);
 
+  const handleReportDeleted = useCallback((id: string) => {
+    setReports((prev) => prev.filter((r) => r.id !== id));
+    setSelectedReport(null);
+  }, []);
+
+  const handleReportUpdated = useCallback((updatedReport: Report) => {
+    setReports((prev) =>
+      prev.map((r) => (r.id === updatedReport.id ? updatedReport : r))
+    );
+    setSelectedReport(updatedReport);
+  }, []);
+
   const handlePanelReportSelect = useCallback((report: Report) => {
     mapRef.current?.flyTo([report.latitude, report.longitude], 15, { duration: 0.5 });
     setSelectedReport(report);
@@ -291,6 +303,8 @@ function MapInner() {
           report={selectedReport}
           onClose={handlePopupClose}
           onVoteSuccess={handleVoteSuccess}
+          onReportDeleted={handleReportDeleted}
+          onReportUpdated={handleReportUpdated}
         />
       )}
 

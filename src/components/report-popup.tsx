@@ -3,11 +3,14 @@
 import { useState, useEffect, useCallback } from "react";
 import type { Report } from "@/types";
 import { getFingerprint } from "@/lib/fingerprint";
+import { useAdmin } from "./admin-context";
 
 interface ReportPopupProps {
   report: Report;
   onClose: () => void;
   onVoteSuccess: (updatedReport: Report) => void;
+  onReportDeleted?: (id: string) => void;
+  onReportUpdated?: (report: Report) => void;
 }
 
 function timeAgo(dateStr: string): string {
@@ -21,20 +24,31 @@ function timeAgo(dateStr: string): string {
   return `hace ${hours}h`;
 }
 
-export function ReportPopup({ report, onClose, onVoteSuccess }: ReportPopupProps) {
+export function ReportPopup({ report, onClose, onVoteSuccess, onReportDeleted, onReportUpdated }: ReportPopupProps) {
   const [voting, setVoting] = useState(false);
   const [hasVoted, setHasVoted] = useState(false);
   const [voteError, setVoteError] = useState<string | null>(null);
   const [visible, setVisible] = useState(false);
+  const { isAdmin, password } = useAdmin();
+  const [editing, setEditing] = useState(false);
+  const [deleting, setDeleting] = useState(false);
+  const [saving, setSaving] = useState(false);
+  const [adminError, setAdminError] = useState<string | null>(null);
+  const [editForm, setEditForm] = useState({
+    type: report.type as string,
+    status: report.status as string,
+    description: report.description || "",
+    sourceUrl: report.sourceUrl || "",
+  });
 
   useEffect(() => {
     requestAnimationFrame(() => setVisible(true));
   }, []);
 
-  const handleClose = () => {
+  const handleClose = useCallback(() => {
     setVisible(false);
     setTimeout(onClose, 200);
-  };
+  }, [onClose]);
 
   const handleVote = useCallback(
     async (voteType: "confirm" | "deny") => {
@@ -70,6 +84,58 @@ export function ReportPopup({ report, onClose, onVoteSuccess }: ReportPopupProps
     },
     [report.id, onVoteSuccess]
   );
+
+  const handleDelete = useCallback(async () => {
+    setSaving(true);
+    setAdminError(null);
+    try {
+      const res = await fetch(`/api/reports/${report.id}`, {
+        method: "DELETE",
+        headers: { Authorization: `Bearer ${password}` },
+      });
+      if (res.ok) {
+        onReportDeleted?.(report.id);
+        handleClose();
+      } else {
+        setAdminError("Error al eliminar");
+      }
+    } catch {
+      setAdminError("Error al eliminar");
+    } finally {
+      setSaving(false);
+    }
+  }, [report.id, password, onReportDeleted, handleClose]);
+
+  const handleSaveEdit = useCallback(async () => {
+    setSaving(true);
+    setAdminError(null);
+    try {
+      const res = await fetch(`/api/reports/${report.id}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${password}`,
+        },
+        body: JSON.stringify({
+          type: editForm.type,
+          status: editForm.status,
+          description: editForm.description,
+          sourceUrl: editForm.sourceUrl,
+        }),
+      });
+      if (res.ok) {
+        const updated = await res.json();
+        onReportUpdated?.(updated);
+        setEditing(false);
+      } else {
+        setAdminError("Error al guardar");
+      }
+    } catch {
+      setAdminError("Error al guardar");
+    } finally {
+      setSaving(false);
+    }
+  }, [report.id, password, editForm, onReportUpdated]);
 
   const typeConfig: Record<string, { dot: string; title: string; link: string }> = {
     armed_confrontation: {
@@ -234,6 +300,131 @@ export function ReportPopup({ report, onClose, onVoteSuccess }: ReportPopupProps
           {voteError && (
             <p className="font-mono text-sm text-rose-600 text-center mt-3">
               {voteError}
+            </p>
+          )}
+
+          {/* Admin controls */}
+          {isAdmin && !editing && (
+            <div className="mt-5 pt-4 border-t border-zinc-200">
+              <p className="font-mono text-[10px] text-zinc-400 uppercase tracking-widest mb-3">Admin</p>
+              {deleting ? (
+                <div className="space-y-2">
+                  <p className="font-mono text-sm text-rose-600 text-center">Eliminar este reporte?</p>
+                  <div className="grid grid-cols-2 gap-2">
+                    <button
+                      onClick={handleDelete}
+                      disabled={saving}
+                      className="py-2.5 rounded-xl bg-rose-50 border border-rose-200 text-rose-700 font-display font-bold text-sm tracking-widest uppercase transition-all hover:bg-rose-100 active:scale-95 disabled:opacity-50"
+                    >
+                      {saving ? "Eliminando..." : "Confirmar"}
+                    </button>
+                    <button
+                      onClick={() => setDeleting(false)}
+                      disabled={saving}
+                      className="py-2.5 rounded-xl bg-zinc-50 border border-zinc-200 text-zinc-600 font-display font-bold text-sm tracking-widest uppercase transition-all hover:bg-zinc-100 active:scale-95 disabled:opacity-50"
+                    >
+                      Cancelar
+                    </button>
+                  </div>
+                </div>
+              ) : (
+                <div className="grid grid-cols-2 gap-2">
+                  <button
+                    onClick={() => setEditing(true)}
+                    className="py-2.5 rounded-xl bg-zinc-50 border border-zinc-200 text-zinc-600 font-display font-bold text-sm tracking-widest uppercase transition-all hover:bg-zinc-100 active:scale-95"
+                  >
+                    Editar
+                  </button>
+                  <button
+                    onClick={() => setDeleting(true)}
+                    className="py-2.5 rounded-xl bg-rose-50 border border-rose-200 text-rose-600 font-display font-bold text-sm tracking-widest uppercase transition-all hover:bg-rose-100 active:scale-95"
+                  >
+                    Eliminar
+                  </button>
+                </div>
+              )}
+            </div>
+          )}
+
+          {/* Admin edit form */}
+          {isAdmin && editing && (
+            <div className="mt-5 pt-4 border-t border-zinc-200">
+              <p className="font-mono text-[10px] text-zinc-400 uppercase tracking-widest mb-3">Editar reporte</p>
+              <div className="space-y-3">
+                <div>
+                  <label className="font-mono text-xs text-zinc-500 mb-1 block">Tipo</label>
+                  <select
+                    value={editForm.type}
+                    onChange={(e) => setEditForm((f) => ({ ...f, type: e.target.value }))}
+                    className="w-full px-3 py-2 rounded-lg border border-zinc-300 font-mono text-sm text-zinc-900 bg-white focus:outline-none focus:ring-2 focus:ring-zinc-400"
+                  >
+                    <option value="armed_confrontation">Balacera</option>
+                    <option value="road_blockade">Bloqueo</option>
+                    <option value="cartel_activity">Actividad del Cartel</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="font-mono text-xs text-zinc-500 mb-1 block">Status</label>
+                  <select
+                    value={editForm.status}
+                    onChange={(e) => setEditForm((f) => ({ ...f, status: e.target.value }))}
+                    className="w-full px-3 py-2 rounded-lg border border-zinc-300 font-mono text-sm text-zinc-900 bg-white focus:outline-none focus:ring-2 focus:ring-zinc-400"
+                  >
+                    <option value="unconfirmed">Sin confirmar</option>
+                    <option value="confirmed">Confirmado</option>
+                    <option value="denied">Negado</option>
+                    <option value="expired">Expirado</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="font-mono text-xs text-zinc-500 mb-1 block">Descripcion</label>
+                  <textarea
+                    value={editForm.description}
+                    onChange={(e) => setEditForm((f) => ({ ...f, description: e.target.value }))}
+                    rows={3}
+                    className="w-full px-3 py-2 rounded-lg border border-zinc-300 font-mono text-sm text-zinc-900 resize-none focus:outline-none focus:ring-2 focus:ring-zinc-400"
+                  />
+                </div>
+                <div>
+                  <label className="font-mono text-xs text-zinc-500 mb-1 block">URL fuente</label>
+                  <input
+                    type="url"
+                    value={editForm.sourceUrl}
+                    onChange={(e) => setEditForm((f) => ({ ...f, sourceUrl: e.target.value }))}
+                    className="w-full px-3 py-2 rounded-lg border border-zinc-300 font-mono text-sm text-zinc-900 focus:outline-none focus:ring-2 focus:ring-zinc-400"
+                  />
+                </div>
+                <div className="grid grid-cols-2 gap-2 pt-1">
+                  <button
+                    onClick={handleSaveEdit}
+                    disabled={saving}
+                    className="py-2.5 rounded-xl bg-zinc-900 text-white font-display font-bold text-sm tracking-widest uppercase transition-all hover:bg-zinc-800 active:scale-95 disabled:opacity-50"
+                  >
+                    {saving ? "Guardando..." : "Guardar"}
+                  </button>
+                  <button
+                    onClick={() => {
+                      setEditing(false);
+                      setEditForm({
+                        type: report.type,
+                        status: report.status,
+                        description: report.description || "",
+                        sourceUrl: report.sourceUrl || "",
+                      });
+                    }}
+                    disabled={saving}
+                    className="py-2.5 rounded-xl bg-zinc-50 border border-zinc-200 text-zinc-600 font-display font-bold text-sm tracking-widest uppercase transition-all hover:bg-zinc-100 active:scale-95 disabled:opacity-50"
+                  >
+                    Cancelar
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {adminError && (
+            <p className="font-mono text-sm text-rose-600 text-center mt-3">
+              {adminError}
             </p>
           )}
         </div>
