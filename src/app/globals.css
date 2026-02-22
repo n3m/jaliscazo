@@ -25,26 +25,25 @@ body {
   display: none !important;
 }
 
-/* Marker animations — no transform (breaks Leaflet SVG positioning) */
+/* Marker animations */
 @keyframes marker-pulse {
   0%,
   100% {
-    stroke-opacity: 0.4;
-    fill-opacity: 0.4;
+    opacity: 0.5;
   }
   50% {
-    stroke-opacity: 1;
-    fill-opacity: 0.8;
+    opacity: 1;
   }
 }
 
 @keyframes marker-glow {
   0%,
   100% {
-    filter: drop-shadow(0 0 4px currentColor);
+    box-shadow: 0 0 6px var(--marker-color, currentColor);
   }
   50% {
-    filter: drop-shadow(0 0 12px currentColor) drop-shadow(0 0 20px currentColor);
+    box-shadow: 0 0 14px var(--marker-color, currentColor),
+      0 0 24px var(--marker-color, currentColor);
   }
 }
 

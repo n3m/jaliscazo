@@ -1,7 +1,8 @@
 "use client";
 
-import { useEffect, useRef } from "react";
-import { CircleMarker, useMap } from "react-leaflet";
+import { useMemo } from "react";
+import { Marker } from "react-leaflet";
+import L from "leaflet";
 import type { Report } from "@/types";
 
 interface ReportMarkerProps {
@@ -9,50 +10,56 @@ interface ReportMarkerProps {
   onClick: (report: Report) => void;
 }
 
+const emojiMap: Record<string, string> = {
+  armed_confrontation: "💥",
+  road_blockade: "🚧",
+  cartel_activity: "🔫",
+  building_fire: "🔥",
+};
+
+const colorMap: Record<string, string> = {
+  armed_confrontation: "#ef4444",
+  road_blockade: "#f59e0b",
+  cartel_activity: "#8b5cf6",
+  building_fire: "#f97316",
+};
+
 export function ReportMarker({ report, onClick }: ReportMarkerProps) {
-  const markerRef = useRef<L.CircleMarker>(null);
   const isConfirmed = report.status === "confirmed";
-
-  const colorMap: Record<string, string> = {
-    armed_confrontation: "#ef4444",
-    road_blockade: "#f59e0b",
-    cartel_activity: "#8b5cf6",
-    building_fire: "#f97316",
-  };
   const baseColor = colorMap[report.type] ?? "#f97316";
-  const radius = isConfirmed ? 14 : 9;
-  const opacity = isConfirmed ? 0.95 : 0.6;
-  const weight = isConfirmed ? 3 : 1.5;
+  const emoji = emojiMap[report.type] ?? "⚠️";
+  const size = isConfirmed ? 40 : 32;
+  const emojiSize = isConfirmed ? 28 : 22;
+  const animClass = isConfirmed ? "marker-glow" : "marker-pulse";
 
-  useEffect(() => {
-    const marker = markerRef.current;
-    if (!marker) return;
-
-    const el = marker.getElement();
-    if (!el) return;
-
-    el.classList.remove("marker-pulse", "marker-glow");
-
-    if (isConfirmed) {
-      el.classList.add("marker-glow");
-    } else {
-      el.classList.add("marker-pulse");
-    }
-  }, [isConfirmed, report.id]);
+  const icon = useMemo(
+    () =>
+      L.divIcon({
+        className: "",
+        iconSize: [size, size],
+        iconAnchor: [size / 2, size / 2],
+        html: `<div class="report-marker ${animClass}" style="
+          width:${size}px;
+          height:${size}px;
+          border:2px solid ${baseColor};
+          border-radius:50%;
+          background:transparent;
+          display:flex;
+          align-items:center;
+          justify-content:center;
+          font-size:${emojiSize}px;
+          line-height:1;
+          --marker-color:${baseColor};
+        ">${emoji}</div>`,
+      }),
+    [size, baseColor, emoji, emojiSize, animClass]
+  );
 
   return (
-    <CircleMarker
-      ref={markerRef}
-      center={[report.latitude, report.longitude]}
-      radius={radius}
+    <Marker
+      position={[report.latitude, report.longitude]}
+      icon={icon}
       bubblingMouseEvents={false}
-      pathOptions={{
-        color: baseColor,
-        fillColor: baseColor,
-        fillOpacity: opacity,
-        weight,
-        opacity: 1,
-      }}
       eventHandlers={{
         click: (e) => {
           e.originalEvent.stopPropagation();
