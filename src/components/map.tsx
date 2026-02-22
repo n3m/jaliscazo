@@ -184,11 +184,14 @@ function MapInner() {
         className="h-full w-full z-0"
         zoomControl={false}
         attributionControl={false}
+        maxBounds={[[-90, -180], [90, 180]]}
+        maxBoundsViscosity={1.0}
       >
         <MapController mapRef={mapRef} />
         <TileLayer
           url="https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png"
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OSM</a> &copy; <a href="https://carto.com/">CARTO</a>'
+          noWrap
         />
         <MapEvents
           onMapClick={handleMapClick}
