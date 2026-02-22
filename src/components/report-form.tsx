@@ -105,17 +105,17 @@ export function ReportForm({
 
           {/* Location */}
           <div className="mb-5">
-            <p className="font-mono text-[10px] text-zinc-400 tracking-widest uppercase mb-1">
+            <p className="font-mono text-xs text-zinc-400 tracking-widest uppercase mb-1">
               Ubicaci&oacute;n
             </p>
-            <p className="font-mono text-xs text-zinc-700 truncate">
+            <p className="font-mono text-sm text-zinc-700 truncate">
               {address || `${latitude.toFixed(5)}, ${longitude.toFixed(5)}`}
             </p>
           </div>
 
           {/* Type selection */}
           <div className="mb-5">
-            <p className="font-mono text-[10px] text-zinc-400 tracking-widest uppercase mb-3">
+            <p className="font-mono text-xs text-zinc-400 tracking-widest uppercase mb-3">
               Tipo de reporte
             </p>
             <div className="grid grid-cols-3 gap-3">
@@ -127,9 +127,9 @@ export function ReportForm({
                     : "border-zinc-200 bg-zinc-50 hover:border-zinc-300"
                 }`}
               >
-                <span className="text-2xl">💥</span>
+                <span className="text-3xl">💥</span>
                 <span
-                  className={`font-display text-sm font-bold tracking-wide uppercase ${
+                  className={`font-display text-base font-bold tracking-wide uppercase ${
                     type === "armed_confrontation"
                       ? "text-red-600"
                       : "text-zinc-500"
@@ -147,9 +147,9 @@ export function ReportForm({
                     : "border-zinc-200 bg-zinc-50 hover:border-zinc-300"
                 }`}
               >
-                <span className="text-2xl">🚧</span>
+                <span className="text-3xl">🚧</span>
                 <span
-                  className={`font-display text-sm font-bold tracking-wide uppercase ${
+                  className={`font-display text-base font-bold tracking-wide uppercase ${
                     type === "road_blockade"
                       ? "text-amber-600"
                       : "text-zinc-500"
@@ -167,9 +167,9 @@ export function ReportForm({
                     : "border-zinc-200 bg-zinc-50 hover:border-zinc-300"
                 }`}
               >
-                <span className="text-2xl">🔫</span>
+                <span className="text-3xl">🔫</span>
                 <span
-                  className={`font-display text-sm font-bold tracking-wide uppercase ${
+                  className={`font-display text-base font-bold tracking-wide uppercase ${
                     type === "cartel_activity"
                       ? "text-violet-600"
                       : "text-zinc-500"
@@ -183,7 +183,7 @@ export function ReportForm({
 
           {/* Description */}
           <div className="mb-4">
-            <label className="font-mono text-[10px] text-zinc-400 tracking-widest uppercase block mb-2">
+            <label className="font-mono text-xs text-zinc-400 tracking-widest uppercase block mb-2">
               Descripci&oacute;n (opcional)
             </label>
             <textarea
@@ -191,13 +191,13 @@ export function ReportForm({
               onChange={(e) => setDescription(e.target.value)}
               placeholder="&iquest;Qu&eacute; est&aacute; pasando?"
               rows={2}
-              className="w-full bg-zinc-50 border border-zinc-200 rounded-lg px-3 py-2 font-mono text-sm text-zinc-800 placeholder:text-zinc-400 focus:outline-none focus:border-zinc-400 resize-none"
+              className="w-full bg-zinc-50 border border-zinc-200 rounded-lg px-3 py-2 font-mono text-base text-zinc-800 placeholder:text-zinc-400 focus:outline-none focus:border-zinc-400 resize-none"
             />
           </div>
 
           {/* Source URL */}
           <div className="mb-6">
-            <label className="font-mono text-[10px] text-zinc-400 tracking-widest uppercase block mb-2">
+            <label className="font-mono text-xs text-zinc-400 tracking-widest uppercase block mb-2">
               Enlace fuente (opcional)
             </label>
             <input
@@ -205,7 +205,7 @@ export function ReportForm({
               value={sourceUrl}
               onChange={(e) => setSourceUrl(e.target.value)}
               placeholder="https://twitter.com/..."
-              className="w-full bg-zinc-50 border border-zinc-200 rounded-lg px-3 py-2 font-mono text-sm text-zinc-800 placeholder:text-zinc-400 focus:outline-none focus:border-zinc-400"
+              className="w-full bg-zinc-50 border border-zinc-200 rounded-lg px-3 py-2 font-mono text-base text-zinc-800 placeholder:text-zinc-400 focus:outline-none focus:border-zinc-400"
             />
           </div>
 
@@ -213,7 +213,7 @@ export function ReportForm({
           <button
             onClick={handleSubmit}
             disabled={!type || submitting}
-            className={`w-full py-3.5 rounded-xl font-display font-bold text-sm tracking-widest uppercase transition-all active:scale-[0.98] ${
+            className={`w-full py-3.5 rounded-xl font-display font-bold text-base tracking-widest uppercase transition-all active:scale-[0.98] ${
               !type || submitting
                 ? "bg-zinc-200 text-zinc-400 cursor-not-allowed"
                 : type === "armed_confrontation"

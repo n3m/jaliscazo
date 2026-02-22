@@ -62,7 +62,7 @@ export function ReportsPanel({
       >
         {/* Header */}
         <div className="flex items-center justify-between px-4 py-4 border-b border-zinc-200">
-          <h2 className="font-display font-bold text-sm text-zinc-900 uppercase tracking-widest">
+          <h2 className="font-display font-bold text-base text-zinc-900 uppercase tracking-widest">
             Reportes Recientes
           </h2>
           <button
@@ -79,7 +79,7 @@ export function ReportsPanel({
         <div className="flex-1 overflow-y-auto">
           {sorted.length === 0 ? (
             <div className="flex items-center justify-center h-full px-4">
-              <p className="font-mono text-sm text-zinc-400 text-center">
+              <p className="font-mono text-base text-zinc-400 text-center">
                 No hay reportes activos
               </p>
             </div>
@@ -106,17 +106,17 @@ export function ReportsPanel({
                   >
                     {/* Type + time */}
                     <div className="flex items-center justify-between gap-2">
-                      <span className="font-display font-bold text-sm text-zinc-900 uppercase tracking-wide">
+                      <span className="font-display font-bold text-base text-zinc-900 uppercase tracking-wide">
                         {titleMap[report.type] ?? "Cartel"}
                       </span>
-                      <span className="font-mono text-[10px] text-zinc-400 shrink-0">
+                      <span className="font-mono text-xs text-zinc-400 shrink-0">
                         {timeAgo(report.createdAt)}
                       </span>
                     </div>
 
                     {/* Description */}
                     {report.description && (
-                      <p className="font-mono text-xs text-zinc-500 mt-1 line-clamp-1">
+                      <p className="font-mono text-sm text-zinc-500 mt-1 line-clamp-1">
                         {report.description}
                       </p>
                     )}
@@ -124,16 +124,16 @@ export function ReportsPanel({
                     {/* Status + votes */}
                     <div className="flex items-center gap-3 mt-1.5">
                       <span
-                        className={`px-2 py-0.5 rounded-full font-mono text-[9px] font-bold uppercase tracking-wider ${
+                        className={`px-2 py-0.5 rounded-full font-mono text-[10px] font-bold uppercase tracking-wider ${
                           statusColors[report.status]
                         }`}
                       >
                         {statusLabels[report.status]}
                       </span>
-                      <span className="font-mono text-[10px] text-emerald-600">
+                      <span className="font-mono text-xs text-emerald-600">
                         {report.confirmCount}
                       </span>
-                      <span className="font-mono text-[10px] text-rose-600">
+                      <span className="font-mono text-xs text-rose-600">
                         {report.denyCount}
                       </span>
                     </div>

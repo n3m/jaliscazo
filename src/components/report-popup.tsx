@@ -131,16 +131,16 @@ export function ReportPopup({ report, onClose, onVoteSuccess }: ReportPopupProps
                 className={`w-4 h-4 rounded-full ${config.dot}`}
               />
               <div>
-                <h2 className="font-display font-bold text-zinc-900 text-base uppercase tracking-wide">
+                <h2 className="font-display font-bold text-zinc-900 text-lg uppercase tracking-wide">
                   {config.title}
                 </h2>
-                <p className="font-mono text-[10px] text-zinc-400">
+                <p className="font-mono text-xs text-zinc-400">
                   {timeAgo(report.createdAt)}
                 </p>
               </div>
             </div>
             <span
-              className={`px-2.5 py-1 rounded-full font-mono text-[10px] font-bold uppercase tracking-wider ${
+              className={`px-2.5 py-1 rounded-full font-mono text-xs font-bold uppercase tracking-wider ${
                 statusColors[report.status]
               }`}
             >
@@ -150,7 +150,7 @@ export function ReportPopup({ report, onClose, onVoteSuccess }: ReportPopupProps
 
           {/* Description */}
           {report.description && (
-            <p className="font-mono text-sm text-zinc-700 mb-4 leading-relaxed">
+            <p className="font-mono text-base text-zinc-700 mb-4 leading-relaxed">
               {report.description}
             </p>
           )}
@@ -161,7 +161,7 @@ export function ReportPopup({ report, onClose, onVoteSuccess }: ReportPopupProps
               href={report.sourceUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className={`inline-flex items-center gap-1.5 font-mono text-xs mb-4 ${config.link}`}
+              className={`inline-flex items-center gap-1.5 font-mono text-sm mb-4 ${config.link}`}
             >
               <svg
                 className="w-3.5 h-3.5"
@@ -183,23 +183,23 @@ export function ReportPopup({ report, onClose, onVoteSuccess }: ReportPopupProps
           {/* Vote counts */}
           <div className="flex items-center gap-6 mb-5 py-3 border-y border-zinc-200">
             <div className="flex items-center gap-2">
-              <span className="font-mono text-lg font-bold text-emerald-600">
+              <span className="font-mono text-xl font-bold text-emerald-600">
                 {report.confirmCount}
               </span>
-              <span className="font-mono text-[10px] text-zinc-400 uppercase tracking-wider">
+              <span className="font-mono text-xs text-zinc-400 uppercase tracking-wider">
                 confirman
               </span>
             </div>
             <div className="flex items-center gap-2">
-              <span className="font-mono text-lg font-bold text-rose-600">
+              <span className="font-mono text-xl font-bold text-rose-600">
                 {report.denyCount}
               </span>
-              <span className="font-mono text-[10px] text-zinc-400 uppercase tracking-wider">
+              <span className="font-mono text-xs text-zinc-400 uppercase tracking-wider">
                 niegan
               </span>
             </div>
             <div className="ml-auto">
-              <span className="font-mono text-[10px] text-zinc-400">
+              <span className="font-mono text-xs text-zinc-400">
                 Score: {report.score}
               </span>
             </div>
@@ -208,7 +208,7 @@ export function ReportPopup({ report, onClose, onVoteSuccess }: ReportPopupProps
           {/* Vote buttons or voted state */}
           {hasVoted ? (
             <div className="text-center py-3">
-              <p className="font-mono text-sm text-zinc-400">
+              <p className="font-mono text-base text-zinc-400">
                 ✓ Ya votaste en este reporte
               </p>
             </div>
@@ -217,14 +217,14 @@ export function ReportPopup({ report, onClose, onVoteSuccess }: ReportPopupProps
               <button
                 onClick={() => handleVote("confirm")}
                 disabled={voting}
-                className="flex items-center justify-center gap-2 py-3.5 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-700 font-display font-bold text-sm tracking-widest uppercase transition-all hover:bg-emerald-100 active:scale-95 disabled:opacity-50 min-h-[48px]"
+                className="flex items-center justify-center gap-2 py-3.5 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-700 font-display font-bold text-base tracking-widest uppercase transition-all hover:bg-emerald-100 active:scale-95 disabled:opacity-50 min-h-[48px]"
               >
                 Confirmar
               </button>
               <button
                 onClick={() => handleVote("deny")}
                 disabled={voting}
-                className="flex items-center justify-center gap-2 py-3.5 rounded-xl bg-rose-50 border border-rose-200 text-rose-700 font-display font-bold text-sm tracking-widest uppercase transition-all hover:bg-rose-100 active:scale-95 disabled:opacity-50 min-h-[48px]"
+                className="flex items-center justify-center gap-2 py-3.5 rounded-xl bg-rose-50 border border-rose-200 text-rose-700 font-display font-bold text-base tracking-widest uppercase transition-all hover:bg-rose-100 active:scale-95 disabled:opacity-50 min-h-[48px]"
               >
                 Negar
               </button>
@@ -232,7 +232,7 @@ export function ReportPopup({ report, onClose, onVoteSuccess }: ReportPopupProps
           )}
 
           {voteError && (
-            <p className="font-mono text-xs text-rose-600 text-center mt-3">
+            <p className="font-mono text-sm text-rose-600 text-center mt-3">
               {voteError}
             </p>
           )}

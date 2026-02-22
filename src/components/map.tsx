@@ -13,6 +13,7 @@ import { ReportMarker } from "./report-marker";
 import { ReportForm } from "./report-form";
 import { ReportPopup } from "./report-popup";
 import { ReportsPanel } from "./reports-panel";
+import { WelcomeDialog } from "./welcome-dialog";
 
 const GUADALAJARA_CENTER: [number, number] = [20.6597, -103.3496];
 const POLL_INTERVAL = 20_000;
@@ -57,8 +58,20 @@ export function Map() {
   } | null>(null);
   const [lastUpdate, setLastUpdate] = useState<Date>(new Date());
   const [panelOpen, setPanelOpen] = useState(false);
+  const [showWelcome, setShowWelcome] = useState(false);
   const boundsRef = useRef<L.LatLngBounds | null>(null);
   const mapRef = useRef<L.Map | null>(null);
+
+  useEffect(() => {
+    if (!localStorage.getItem("jaliscazo_welcome_seen")) {
+      setShowWelcome(true);
+    }
+  }, []);
+
+  const handleWelcomeClose = useCallback(() => {
+    localStorage.setItem("jaliscazo_welcome_seen", "1");
+    setShowWelcome(false);
+  }, []);
 
   const fetchReports = useCallback(async () => {
     const bounds = boundsRef.current;
@@ -179,10 +192,10 @@ export function Map() {
               </svg>
             </button>
             <div>
-              <h1 className="font-display text-xl font-bold tracking-[0.2em] text-zinc-900 uppercase">
+              <h1 className="font-display text-2xl font-bold tracking-[0.2em] text-zinc-900 uppercase">
                 Jaliscazo
               </h1>
-              <p className="font-mono text-[10px] text-zinc-500 tracking-widest uppercase">
+              <p className="font-mono text-xs text-zinc-500 tracking-widest uppercase">
                 Reportes en tiempo real
               </p>
             </div>
@@ -190,19 +203,19 @@ export function Map() {
           <div className="flex items-center gap-4 pointer-events-auto">
             <div className="flex items-center gap-1.5">
               <span className="w-2.5 h-2.5 rounded-full bg-red-600 shadow-[0_0_6px_rgba(220,38,38,0.5)]" />
-              <span className="font-mono text-[10px] text-zinc-600 uppercase">
+              <span className="font-mono text-xs text-zinc-600 uppercase">
                 Balacera
               </span>
             </div>
             <div className="flex items-center gap-1.5">
               <span className="w-2.5 h-2.5 rounded-full bg-amber-500 shadow-[0_0_6px_rgba(245,158,11,0.5)]" />
-              <span className="font-mono text-[10px] text-zinc-600 uppercase">
+              <span className="font-mono text-xs text-zinc-600 uppercase">
                 Bloqueo
               </span>
             </div>
             <div className="flex items-center gap-1.5">
               <span className="w-2.5 h-2.5 rounded-full bg-violet-500 shadow-[0_0_6px_rgba(139,92,246,0.5)]" />
-              <span className="font-mono text-[10px] text-zinc-600 uppercase">
+              <span className="font-mono text-xs text-zinc-600 uppercase">
                 Cartel
               </span>
             </div>
@@ -213,11 +226,11 @@ export function Map() {
       {/* Bottom status bar */}
       <div className="absolute bottom-0 left-0 right-0 z-[1000] pointer-events-none">
         <div className="flex items-center justify-between px-4 py-2 bg-gradient-to-t from-white/95 to-transparent">
-          <span className="font-mono text-[10px] text-zinc-500">
+          <span className="font-mono text-xs text-zinc-500">
             {activeReports.length} reporte{activeReports.length !== 1 ? "s" : ""}{" "}
             activo{activeReports.length !== 1 ? "s" : ""}
           </span>
-          <span className="font-mono text-[10px] text-zinc-500">
+          <span className="font-mono text-xs text-zinc-500">
             Actualizado hace{" "}
             <TimeSince date={lastUpdate} />
           </span>
@@ -250,6 +263,9 @@ export function Map() {
           onVoteSuccess={handleVoteSuccess}
         />
       )}
+
+      {/* Welcome dialog */}
+      {showWelcome && <WelcomeDialog onClose={handleWelcomeClose} />}
     </div>
   );
 }
