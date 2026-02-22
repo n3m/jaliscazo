@@ -56,6 +56,9 @@ export async function PATCH(
   }
   if (body.status && ["unconfirmed", "confirmed", "denied", "expired"].includes(body.status)) {
     updates.status = body.status;
+    // Lock status if admin is force-setting confirmed/denied/expired
+    // Unlock if admin resets to unconfirmed (return to auto-compute)
+    updates.adminLockedAt = body.status === "unconfirmed" ? null : new Date();
   }
   if (body.description !== undefined) {
     updates.description = body.description || null;

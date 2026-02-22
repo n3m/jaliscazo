@@ -10,6 +10,7 @@ export interface Report {
   description: string | null;
   sourceUrl: string | null;
   status: ReportStatus;
+  adminLockedAt: string | null;
   createdAt: string;
   lastActivityAt: string;
   score: number;

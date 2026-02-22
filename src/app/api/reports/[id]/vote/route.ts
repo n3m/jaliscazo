@@ -84,11 +84,13 @@ export async function POST(
     allVotes.map((v) => ({ voteType: v.voteType, createdAt: v.createdAt }))
   );
 
-  // Update status
-  await db
-    .update(reports)
-    .set({ status })
-    .where(eq(reports.id, id));
+  // Only auto-update status if not admin-locked
+  if (!report.adminLockedAt) {
+    await db
+      .update(reports)
+      .set({ status })
+      .where(eq(reports.id, id));
+  }
 
   const confirmCount = allVotes.filter((v) => v.voteType === "confirm").length;
   const denyCount = allVotes.filter((v) => v.voteType === "deny").length;
@@ -99,6 +101,8 @@ export async function POST(
     .from(reports)
     .where(eq(reports.id, id));
 
+  const effectiveStatus = report.adminLockedAt ? report.status : status;
+
   return NextResponse.json({
     id: updatedReport.id,
     type: updatedReport.type,
@@ -106,7 +110,7 @@ export async function POST(
     longitude: parseFloat(updatedReport.longitude),
     description: updatedReport.description,
     sourceUrl: updatedReport.sourceUrl,
-    status,
+    status: effectiveStatus,
     createdAt: updatedReport.createdAt.toISOString(),
     lastActivityAt: updatedReport.lastActivityAt.toISOString(),
     score,

@@ -52,13 +52,15 @@ export async function GET(request: NextRequest) {
         }))
       );
 
-      // Update status in DB if it changed
-      if (status !== report.status && report.status !== "expired") {
+      // Update status in DB if it changed (skip admin-locked reports)
+      if (status !== report.status && report.status !== "expired" && !report.adminLockedAt) {
         await db
           .update(reports)
           .set({ status })
           .where(eq(reports.id, report.id));
       }
+
+      const effectiveStatus = report.adminLockedAt ? report.status : status;
 
       const confirmCount = reportVotes.filter(
         (v) => v.voteType === "confirm"
@@ -74,7 +76,7 @@ export async function GET(request: NextRequest) {
         longitude: parseFloat(report.longitude),
         description: report.description,
         sourceUrl: report.sourceUrl,
-        status,
+        status: effectiveStatus,
         createdAt: report.createdAt.toISOString(),
         lastActivityAt: report.lastActivityAt.toISOString(),
         score,

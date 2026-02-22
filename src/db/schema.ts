@@ -37,6 +37,7 @@ export const reports = pgTable("reports", {
   lastActivityAt: timestamp("last_activity_at", { withTimezone: true })
     .notNull()
     .defaultNow(),
+  adminLockedAt: timestamp("admin_locked_at", { withTimezone: true }),
 });
 
 export const votes = pgTable("votes", {
