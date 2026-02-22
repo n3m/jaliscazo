@@ -63,6 +63,14 @@ export async function PATCH(
   if (body.sourceUrl !== undefined) {
     updates.sourceUrl = body.sourceUrl || null;
   }
+  if (body.createdAt) {
+    const d = new Date(body.createdAt);
+    if (!isNaN(d.getTime())) updates.createdAt = d;
+  }
+  if (body.lastActivityAt) {
+    const d = new Date(body.lastActivityAt);
+    if (!isNaN(d.getTime())) updates.lastActivityAt = d;
+  }
 
   if (Object.keys(updates).length === 0) {
     return NextResponse.json({ error: "No valid fields to update" }, { status: 400 });

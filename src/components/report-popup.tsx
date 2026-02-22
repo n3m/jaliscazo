@@ -13,6 +13,12 @@ interface ReportPopupProps {
   onReportUpdated?: (report: Report) => void;
 }
 
+function toLocalDatetime(isoStr: string): string {
+  const d = new Date(isoStr);
+  const local = new Date(d.getTime() - d.getTimezoneOffset() * 60000);
+  return local.toISOString().slice(0, 16);
+}
+
 function timeAgo(dateStr: string): string {
   const seconds = Math.floor(
     (Date.now() - new Date(dateStr).getTime()) / 1000
@@ -39,6 +45,8 @@ export function ReportPopup({ report, onClose, onVoteSuccess, onReportDeleted, o
     status: report.status as string,
     description: report.description || "",
     sourceUrl: report.sourceUrl || "",
+    createdAt: toLocalDatetime(report.createdAt),
+    lastActivityAt: toLocalDatetime(report.lastActivityAt),
   });
 
   useEffect(() => {
@@ -121,6 +129,8 @@ export function ReportPopup({ report, onClose, onVoteSuccess, onReportDeleted, o
           status: editForm.status,
           description: editForm.description,
           sourceUrl: editForm.sourceUrl,
+          createdAt: new Date(editForm.createdAt).toISOString(),
+          lastActivityAt: new Date(editForm.lastActivityAt).toISOString(),
         }),
       });
       if (res.ok) {
@@ -394,6 +404,24 @@ export function ReportPopup({ report, onClose, onVoteSuccess, onReportDeleted, o
                     className="w-full px-3 py-2 rounded-lg border border-zinc-300 font-mono text-sm text-zinc-900 focus:outline-none focus:ring-2 focus:ring-zinc-400"
                   />
                 </div>
+                <div>
+                  <label className="font-mono text-xs text-zinc-500 mb-1 block">Creado</label>
+                  <input
+                    type="datetime-local"
+                    value={editForm.createdAt}
+                    onChange={(e) => setEditForm((f) => ({ ...f, createdAt: e.target.value }))}
+                    className="w-full px-3 py-2 rounded-lg border border-zinc-300 font-mono text-sm text-zinc-900 focus:outline-none focus:ring-2 focus:ring-zinc-400"
+                  />
+                </div>
+                <div>
+                  <label className="font-mono text-xs text-zinc-500 mb-1 block">Ultima actividad</label>
+                  <input
+                    type="datetime-local"
+                    value={editForm.lastActivityAt}
+                    onChange={(e) => setEditForm((f) => ({ ...f, lastActivityAt: e.target.value }))}
+                    className="w-full px-3 py-2 rounded-lg border border-zinc-300 font-mono text-sm text-zinc-900 focus:outline-none focus:ring-2 focus:ring-zinc-400"
+                  />
+                </div>
                 <div className="grid grid-cols-2 gap-2 pt-1">
                   <button
                     onClick={handleSaveEdit}
@@ -410,6 +438,8 @@ export function ReportPopup({ report, onClose, onVoteSuccess, onReportDeleted, o
                         status: report.status,
                         description: report.description || "",
                         sourceUrl: report.sourceUrl || "",
+                        createdAt: toLocalDatetime(report.createdAt),
+                        lastActivityAt: toLocalDatetime(report.lastActivityAt),
                       });
                     }}
                     disabled={saving}
