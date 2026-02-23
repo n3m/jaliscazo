@@ -197,7 +197,7 @@ function MapInner() {
           onMapClick={handleMapClick}
           onBoundsChange={handleBoundsChange}
         />
-        {activeReports.map((report) => (
+        {reports.map((report) => (
           <ReportMarker
             key={report.id}
             report={report}
@@ -243,6 +243,9 @@ function MapInner() {
               <p className="font-mono text-xs text-zinc-500 tracking-widest uppercase">
                 Reportes en tiempo real
               </p>
+              <a href="mailto:contacto@jaliscazo.com" className="font-mono text-xs text-zinc-400 hover:text-zinc-600 transition-colors">
+                Contacto: contacto@jaliscazo.com
+              </a>
             </div>
           </div>
           <div className="flex items-center gap-4 pointer-events-auto">

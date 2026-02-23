@@ -23,7 +23,7 @@ export async function GET(request: NextRequest) {
     );
 
   // Build conditions
-  const conditions = [ne(reports.status, "expired")];
+  const conditions = [];
 
   if (swLat && swLng && neLat && neLng) {
     conditions.push(gte(reports.latitude, swLat));
@@ -35,7 +35,7 @@ export async function GET(request: NextRequest) {
   const allReports = await db
     .select()
     .from(reports)
-    .where(and(...conditions));
+    .where(conditions.length > 0 ? and(...conditions) : undefined);
 
   // For each report, get votes and compute score
   const result = await Promise.all(

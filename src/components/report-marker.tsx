@@ -25,12 +25,14 @@ const colorMap: Record<string, string> = {
 };
 
 export function ReportMarker({ report, onClick }: ReportMarkerProps) {
+  const isExpired = report.status === "expired";
   const isConfirmed = report.status === "confirmed";
-  const baseColor = colorMap[report.type] ?? "#f97316";
+  const baseColor = isExpired ? "#9ca3af" : (colorMap[report.type] ?? "#f97316");
   const emoji = emojiMap[report.type] ?? "⚠️";
-  const size = isConfirmed ? 40 : 32;
-  const emojiSize = isConfirmed ? 28 : 22;
-  const animClass = isConfirmed ? "marker-glow" : "marker-pulse";
+  const size = isExpired ? 28 : isConfirmed ? 40 : 32;
+  const emojiSize = isExpired ? 18 : isConfirmed ? 28 : 22;
+  const animClass = isExpired ? "" : isConfirmed ? "marker-glow" : "marker-pulse";
+  const opacity = isExpired ? 0.5 : 1;
 
   const icon = useMemo(
     () =>
@@ -49,10 +51,12 @@ export function ReportMarker({ report, onClick }: ReportMarkerProps) {
           justify-content:center;
           font-size:${emojiSize}px;
           line-height:1;
+          opacity:${opacity};
           --marker-color:${baseColor};
+          ${isExpired ? "filter:grayscale(1);" : ""}
         ">${emoji}</div>`,
       }),
-    [size, baseColor, emoji, emojiSize, animClass]
+    [size, baseColor, emoji, emojiSize, animClass, opacity, isExpired]
   );
 
   return (
