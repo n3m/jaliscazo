@@ -91,12 +91,18 @@ export function ReportsPanel({
                   road_blockade: "border-l-amber-500",
                   cartel_activity: "border-l-violet-500",
                   building_fire: "border-l-orange-500",
+                  looting: "border-l-pink-500",
+                  general_danger: "border-l-slate-500",
+                  criminal_activity: "border-l-emerald-600",
                 };
                 const titleMap: Record<string, string> = {
                   armed_confrontation: "Balacera",
                   road_blockade: "Narcobloqueo",
                   cartel_activity: "Cartel",
                   building_fire: "Quema",
+                  looting: "Rapiña",
+                  general_danger: "Peligro",
+                  criminal_activity: "Criminal",
                 };
                 return (
                   <button

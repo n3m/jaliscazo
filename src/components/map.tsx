@@ -248,7 +248,7 @@ function MapInner() {
               </a>
             </div>
           </div>
-          <div className="flex items-center gap-4 pointer-events-auto">
+          <div className="flex flex-col gap-1.5 pointer-events-auto">
             <div className="flex items-center gap-1.5">
               <span className="w-2.5 h-2.5 rounded-full bg-red-600 shadow-[0_0_6px_rgba(220,38,38,0.5)]" />
               <span className="font-mono text-xs text-zinc-600 uppercase">
@@ -271,6 +271,24 @@ function MapInner() {
               <span className="w-2.5 h-2.5 rounded-full bg-orange-500 shadow-[0_0_6px_rgba(249,115,22,0.5)]" />
               <span className="font-mono text-xs text-zinc-600 uppercase">
                 Quema
+              </span>
+            </div>
+            <div className="flex items-center gap-1.5">
+              <span className="w-2.5 h-2.5 rounded-full bg-pink-500 shadow-[0_0_6px_rgba(236,72,153,0.5)]" />
+              <span className="font-mono text-xs text-zinc-600 uppercase">
+                Rapiña
+              </span>
+            </div>
+            <div className="flex items-center gap-1.5">
+              <span className="w-2.5 h-2.5 rounded-full bg-slate-500 shadow-[0_0_6px_rgba(100,116,139,0.5)]" />
+              <span className="font-mono text-xs text-zinc-600 uppercase">
+                Peligro
+              </span>
+            </div>
+            <div className="flex items-center gap-1.5">
+              <span className="w-2.5 h-2.5 rounded-full bg-emerald-600 shadow-[0_0_6px_rgba(5,150,105,0.5)]" />
+              <span className="font-mono text-xs text-zinc-600 uppercase">
+                Criminal
               </span>
             </div>
           </div>

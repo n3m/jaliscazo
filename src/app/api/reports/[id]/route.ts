@@ -51,7 +51,7 @@ export async function PATCH(
 
   // Build update object from allowed fields
   const updates: Record<string, unknown> = {};
-  if (body.type && ["armed_confrontation", "road_blockade", "cartel_activity"].includes(body.type)) {
+  if (body.type && ["armed_confrontation", "road_blockade", "cartel_activity", "building_fire", "looting", "general_danger", "criminal_activity"].includes(body.type)) {
     updates.type = body.type;
   }
   if (body.status && ["unconfirmed", "confirmed", "denied", "expired"].includes(body.status)) {

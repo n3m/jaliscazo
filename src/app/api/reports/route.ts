@@ -100,9 +100,9 @@ export async function POST(request: NextRequest) {
     );
   }
 
-  if (!["armed_confrontation", "road_blockade", "cartel_activity", "building_fire"].includes(type)) {
+  if (!["armed_confrontation", "road_blockade", "cartel_activity", "building_fire", "looting", "general_danger", "criminal_activity"].includes(type)) {
     return NextResponse.json(
-      { error: "type must be armed_confrontation, road_blockade, cartel_activity, or building_fire" },
+      { error: "Invalid report type" },
       { status: 400 }
     );
   }

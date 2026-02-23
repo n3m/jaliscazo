@@ -15,6 +15,9 @@ const emojiMap: Record<string, string> = {
   road_blockade: "🚧",
   cartel_activity: "🔫",
   building_fire: "🔥",
+  looting: "🚨",
+  general_danger: "⚠️",
+  criminal_activity: "👹",
 };
 
 const colorMap: Record<string, string> = {
@@ -22,6 +25,9 @@ const colorMap: Record<string, string> = {
   road_blockade: "#f59e0b",
   cartel_activity: "#8b5cf6",
   building_fire: "#f97316",
+  looting: "#ec4899",
+  general_danger: "#64748b",
+  criminal_activity: "#059669",
 };
 
 export function ReportMarker({ report, onClick }: ReportMarkerProps) {

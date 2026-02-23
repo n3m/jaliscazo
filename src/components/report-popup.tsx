@@ -168,6 +168,21 @@ export function ReportPopup({ report, onClose, onVoteSuccess, onReportDeleted, o
       title: "Quema de Edificio",
       link: "text-orange-600 hover:text-orange-500",
     },
+    looting: {
+      dot: "bg-pink-500 shadow-[0_0_10px_rgba(236,72,153,0.4)]",
+      title: "Rapiña",
+      link: "text-pink-600 hover:text-pink-500",
+    },
+    general_danger: {
+      dot: "bg-slate-500 shadow-[0_0_10px_rgba(100,116,139,0.4)]",
+      title: "Peligro General",
+      link: "text-slate-600 hover:text-slate-500",
+    },
+    criminal_activity: {
+      dot: "bg-emerald-600 shadow-[0_0_10px_rgba(5,150,105,0.4)]",
+      title: "Actividad Criminal",
+      link: "text-emerald-600 hover:text-emerald-500",
+    },
   };
   const config = typeConfig[report.type] ?? typeConfig.building_fire;
 
@@ -377,6 +392,9 @@ export function ReportPopup({ report, onClose, onVoteSuccess, onReportDeleted, o
                     <option value="road_blockade">Narcobloqueo</option>
                     <option value="cartel_activity">Actividad del Cartel</option>
                     <option value="building_fire">Quema de Edificio</option>
+                    <option value="looting">Rapiña</option>
+                    <option value="general_danger">Peligro General</option>
+                    <option value="criminal_activity">Actividad Criminal</option>
                   </select>
                 </div>
                 <div>

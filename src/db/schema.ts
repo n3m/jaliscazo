@@ -12,6 +12,9 @@ export const reportTypeEnum = pgEnum("report_type", [
   "road_blockade",
   "cartel_activity",
   "building_fire",
+  "looting",
+  "general_danger",
+  "criminal_activity",
 ]);
 
 export const reportStatusEnum = pgEnum("report_status", [

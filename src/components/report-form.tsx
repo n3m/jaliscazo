@@ -198,6 +198,66 @@ export function ReportForm({
                   Quema
                 </span>
               </button>
+
+              <button
+                onClick={() => setType("looting")}
+                className={`flex flex-col items-center justify-center gap-2 p-4 rounded-xl border-2 transition-all min-h-[80px] active:scale-95 ${
+                  type === "looting"
+                    ? "border-pink-500 bg-pink-50 shadow-[0_0_20px_rgba(236,72,153,0.12)]"
+                    : "border-zinc-200 bg-zinc-50 hover:border-zinc-300"
+                }`}
+              >
+                <span className="text-3xl">🚨</span>
+                <span
+                  className={`font-display text-base font-bold tracking-wide uppercase ${
+                    type === "looting"
+                      ? "text-pink-600"
+                      : "text-zinc-500"
+                  }`}
+                >
+                  Rapiña
+                </span>
+              </button>
+
+              <button
+                onClick={() => setType("general_danger")}
+                className={`flex flex-col items-center justify-center gap-2 p-4 rounded-xl border-2 transition-all min-h-[80px] active:scale-95 ${
+                  type === "general_danger"
+                    ? "border-slate-500 bg-slate-50 shadow-[0_0_20px_rgba(100,116,139,0.12)]"
+                    : "border-zinc-200 bg-zinc-50 hover:border-zinc-300"
+                }`}
+              >
+                <span className="text-3xl">⚠️</span>
+                <span
+                  className={`font-display text-base font-bold tracking-wide uppercase ${
+                    type === "general_danger"
+                      ? "text-slate-600"
+                      : "text-zinc-500"
+                  }`}
+                >
+                  Peligro
+                </span>
+              </button>
+
+              <button
+                onClick={() => setType("criminal_activity")}
+                className={`flex flex-col items-center justify-center gap-2 p-4 rounded-xl border-2 transition-all min-h-[80px] active:scale-95 ${
+                  type === "criminal_activity"
+                    ? "border-emerald-600 bg-emerald-50 shadow-[0_0_20px_rgba(5,150,105,0.12)]"
+                    : "border-zinc-200 bg-zinc-50 hover:border-zinc-300"
+                }`}
+              >
+                <span className="text-3xl">👹</span>
+                <span
+                  className={`font-display text-base font-bold tracking-wide uppercase ${
+                    type === "criminal_activity"
+                      ? "text-emerald-600"
+                      : "text-zinc-500"
+                  }`}
+                >
+                  Criminal
+                </span>
+              </button>
             </div>
           </div>
 
@@ -242,7 +302,13 @@ export function ReportForm({
                     ? "bg-violet-600 text-white shadow-[0_4px_20px_rgba(139,92,246,0.3)] hover:bg-violet-500"
                     : type === "building_fire"
                       ? "bg-orange-500 text-white shadow-[0_4px_20px_rgba(249,115,22,0.3)] hover:bg-orange-400"
-                      : "bg-amber-500 text-white shadow-[0_4px_20px_rgba(245,158,11,0.3)] hover:bg-amber-400"
+                      : type === "looting"
+                        ? "bg-pink-500 text-white shadow-[0_4px_20px_rgba(236,72,153,0.3)] hover:bg-pink-400"
+                        : type === "general_danger"
+                          ? "bg-slate-500 text-white shadow-[0_4px_20px_rgba(100,116,139,0.3)] hover:bg-slate-400"
+                          : type === "criminal_activity"
+                            ? "bg-emerald-600 text-white shadow-[0_4px_20px_rgba(5,150,105,0.3)] hover:bg-emerald-500"
+                            : "bg-amber-500 text-white shadow-[0_4px_20px_rgba(245,158,11,0.3)] hover:bg-amber-400"
             }`}
           >
             {submitting ? "Enviando..." : "Reportar"}
