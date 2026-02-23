@@ -208,7 +208,7 @@ function MapInner() {
 
       {/* Top bar */}
       <div className="absolute top-0 left-0 right-0 z-[1000] pointer-events-none">
-        <div className="flex items-center justify-between px-4 py-3 bg-gradient-to-b from-white/95 to-transparent">
+        <div className="flex items-start justify-between px-4 py-3 bg-gradient-to-b from-white/95 to-transparent">
           <div className="flex items-center gap-3 pointer-events-auto">
             <button
               onClick={() => setPanelOpen(true)}
