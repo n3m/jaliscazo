@@ -4,6 +4,7 @@ import {
   pgEnum,
   decimal,
   text,
+  integer,
   timestamp,
 } from "drizzle-orm/pg-core";
 
@@ -33,6 +34,7 @@ export const reports = pgTable("reports", {
   longitude: decimal("longitude", { precision: 10, scale: 7 }).notNull(),
   description: text("description"),
   sourceUrl: text("source_url"),
+  creatorFingerprint: text("creator_fingerprint"),
   status: reportStatusEnum("status").notNull().default("unconfirmed"),
   createdAt: timestamp("created_at", { withTimezone: true })
     .notNull()
@@ -50,6 +52,31 @@ export const votes = pgTable("votes", {
     .references(() => reports.id, { onDelete: "cascade" }),
   voteType: voteTypeEnum("vote_type").notNull(),
   voterFingerprint: text("voter_fingerprint").notNull(),
+  createdAt: timestamp("created_at", { withTimezone: true })
+    .notNull()
+    .defaultNow(),
+});
+
+export const messages = pgTable("messages", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  reportId: uuid("report_id")
+    .notNull()
+    .references(() => reports.id, { onDelete: "cascade" }),
+  senderFingerprint: text("sender_fingerprint").notNull(),
+  aliasNumber: integer("alias_number").notNull(),
+  content: text("content").notNull(),
+  createdAt: timestamp("created_at", { withTimezone: true })
+    .notNull()
+    .defaultNow(),
+});
+
+export const sources = pgTable("sources", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  reportId: uuid("report_id")
+    .notNull()
+    .references(() => reports.id, { onDelete: "cascade" }),
+  url: text("url").notNull(),
+  addedByFingerprint: text("added_by_fingerprint").notNull(),
   createdAt: timestamp("created_at", { withTimezone: true })
     .notNull()
     .defaultNow(),

@@ -1,8 +1,8 @@
 // src/app/api/reports/[id]/route.ts
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/db";
-import { reports, votes } from "@/db/schema";
-import { eq } from "drizzle-orm";
+import { reports, votes, messages, sources } from "@/db/schema";
+import { eq, count } from "drizzle-orm";
 import { verifyAdmin } from "@/lib/admin";
 import { computeScore } from "@/lib/scoring";
 
@@ -99,6 +99,16 @@ export async function PATCH(
   const confirmCount = reportVotes.filter((v) => v.voteType === "confirm").length;
   const denyCount = reportVotes.filter((v) => v.voteType === "deny").length;
 
+  const [{ count: msgCount }] = await db
+    .select({ count: count() })
+    .from(messages)
+    .where(eq(messages.reportId, id));
+
+  const [{ count: srcCount }] = await db
+    .select({ count: count() })
+    .from(sources)
+    .where(eq(sources.reportId, id));
+
   return NextResponse.json({
     id: updatedReport.id,
     type: updatedReport.type,
@@ -112,5 +122,7 @@ export async function PATCH(
     score,
     confirmCount,
     denyCount,
+    messageCount: msgCount,
+    sourceCount: srcCount,
   });
 }

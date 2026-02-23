@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/db";
-import { reports, votes } from "@/db/schema";
-import { eq, and } from "drizzle-orm";
+import { reports, votes, messages, sources } from "@/db/schema";
+import { eq, and, count } from "drizzle-orm";
 import { computeScore } from "@/lib/scoring";
 
 export async function POST(
@@ -103,6 +103,16 @@ export async function POST(
 
   const effectiveStatus = report.adminLockedAt ? report.status : status;
 
+  const [{ count: msgCount }] = await db
+    .select({ count: count() })
+    .from(messages)
+    .where(eq(messages.reportId, id));
+
+  const [{ count: srcCount }] = await db
+    .select({ count: count() })
+    .from(sources)
+    .where(eq(sources.reportId, id));
+
   return NextResponse.json({
     id: updatedReport.id,
     type: updatedReport.type,
@@ -116,5 +126,7 @@ export async function POST(
     score,
     confirmCount,
     denyCount,
+    messageCount: msgCount,
+    sourceCount: srcCount,
   });
 }

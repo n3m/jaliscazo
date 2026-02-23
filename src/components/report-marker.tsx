@@ -54,6 +54,8 @@ export function ReportMarker({ report, onClick }: ReportMarkerProps) {
   const animClass = isExpired ? "" : isConfirmed ? "marker-glow" : "marker-pulse";
   const opacity = isExpired ? 0.5 : 1;
 
+  const hasChat = !isExpired && report.messageCount > 0;
+
   const icon = useMemo(
     () =>
       L.divIcon({
@@ -73,10 +75,26 @@ export function ReportMarker({ report, onClick }: ReportMarkerProps) {
           line-height:1;
           opacity:${opacity};
           --marker-color:${baseColor};
+          position:relative;
           ${isExpired ? "filter:grayscale(1);" : ""}
-        ">${emoji}</div>`,
+        ">${emoji}${
+          hasChat
+            ? `<span style="
+                position:absolute;
+                top:-3px;
+                right:-3px;
+                width:12px;
+                height:12px;
+                background:${baseColor};
+                border-radius:50%;
+                display:flex;
+                align-items:center;
+                justify-content:center;
+              "><svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg></span>`
+            : ""
+        }</div>`,
       }),
-    [size, baseColor, emoji, emojiSize, animClass, opacity, isExpired]
+    [size, baseColor, emoji, emojiSize, animClass, opacity, isExpired, hasChat]
   );
 
   return (

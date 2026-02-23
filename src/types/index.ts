@@ -16,6 +16,8 @@ export interface Report {
   score: number;
   confirmCount: number;
   denyCount: number;
+  messageCount: number;
+  sourceCount: number;
 }
 
 export interface Vote {
@@ -23,5 +25,21 @@ export interface Vote {
   reportId: string;
   voteType: VoteType;
   voterFingerprint: string;
+  createdAt: string;
+}
+
+export interface Message {
+  id: string;
+  reportId: string;
+  content: string;
+  aliasNumber: number;
+  isOp: boolean;
+  createdAt: string;
+}
+
+export interface Source {
+  id: string;
+  reportId: string;
+  url: string;
   createdAt: string;
 }

@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/db";
-import { reports, votes } from "@/db/schema";
-import { eq, and, ne, gte, lte, sql } from "drizzle-orm";
+import { reports, votes, messages, sources } from "@/db/schema";
+import { eq, and, ne, gte, lte, sql, count } from "drizzle-orm";
 import { computeScore } from "@/lib/scoring";
 
 const EXPIRY_HOURS = 4;
@@ -69,6 +69,16 @@ export async function GET(request: NextRequest) {
         (v) => v.voteType === "deny"
       ).length;
 
+      const [{ count: msgCount }] = await db
+        .select({ count: count() })
+        .from(messages)
+        .where(eq(messages.reportId, report.id));
+
+      const [{ count: srcCount }] = await db
+        .select({ count: count() })
+        .from(sources)
+        .where(eq(sources.reportId, report.id));
+
       return {
         id: report.id,
         type: report.type,
@@ -82,6 +92,8 @@ export async function GET(request: NextRequest) {
         score,
         confirmCount,
         denyCount,
+        messageCount: msgCount,
+        sourceCount: srcCount,
       };
     })
   );
@@ -91,7 +103,7 @@ export async function GET(request: NextRequest) {
 
 export async function POST(request: NextRequest) {
   const body = await request.json();
-  const { type, latitude, longitude, description, source_url } = body;
+  const { type, latitude, longitude, description, source_url, creator_fingerprint } = body;
 
   if (!type || !latitude || !longitude) {
     return NextResponse.json(
@@ -115,9 +127,19 @@ export async function POST(request: NextRequest) {
       longitude: longitude.toString(),
       description: description || null,
       sourceUrl: source_url || null,
+      creatorFingerprint: creator_fingerprint || null,
       status: "unconfirmed",
     })
     .returning();
+
+  // If source_url provided, also create a sources row
+  if (source_url && creator_fingerprint) {
+    await db.insert(sources).values({
+      reportId: report.id,
+      url: source_url,
+      addedByFingerprint: creator_fingerprint,
+    });
+  }
 
   return NextResponse.json(
     {
@@ -133,6 +155,8 @@ export async function POST(request: NextRequest) {
       score: 0,
       confirmCount: 0,
       denyCount: 0,
+      messageCount: 0,
+      sourceCount: source_url ? 1 : 0,
     },
     { status: 201 }
   );

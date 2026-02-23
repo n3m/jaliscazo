@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import type { Report, ReportType } from "@/types";
+import { getFingerprint } from "@/lib/fingerprint";
 
 interface ReportFormProps {
   latitude: number;
@@ -57,6 +58,7 @@ export function ReportForm({
     setSubmitting(true);
 
     try {
+      const fingerprint = await getFingerprint();
       const res = await fetch("/api/reports", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -66,6 +68,7 @@ export function ReportForm({
           longitude,
           description: description || undefined,
           source_url: sourceUrl || undefined,
+          creator_fingerprint: fingerprint,
         }),
       });
 

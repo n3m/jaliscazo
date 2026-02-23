@@ -104,7 +104,41 @@ export function WelcomeDialog({ onClose }: WelcomeDialogProps) {
               </div>
             </div>
 
-            {/* 4. 100% anónimo */}
+            {/* 4. Comentar */}
+            <div className="flex items-start gap-3">
+              <div className="w-8 h-8 rounded-lg bg-zinc-100 dark:bg-zinc-800 flex items-center justify-center shrink-0">
+                <svg className="w-4 h-4 text-zinc-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+                </svg>
+              </div>
+              <div>
+                <p className="font-display text-base font-bold text-zinc-900 dark:text-zinc-100 uppercase tracking-wide">
+                  Comentar
+                </p>
+                <p className="font-mono text-sm text-zinc-500 dark:text-zinc-400">
+                  Abre un reporte y comenta de forma an&oacute;nima
+                </p>
+              </div>
+            </div>
+
+            {/* 5. Fuentes */}
+            <div className="flex items-start gap-3">
+              <div className="w-8 h-8 rounded-lg bg-zinc-100 dark:bg-zinc-800 flex items-center justify-center shrink-0">
+                <svg className="w-4 h-4 text-zinc-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                </svg>
+              </div>
+              <div>
+                <p className="font-display text-base font-bold text-zinc-900 dark:text-zinc-100 uppercase tracking-wide">
+                  Fuentes
+                </p>
+                <p className="font-mono text-sm text-zinc-500 dark:text-zinc-400">
+                  Agrega enlaces a noticias o redes sociales como evidencia
+                </p>
+              </div>
+            </div>
+
+            {/* 6. 100% anónimo */}
             <div className="flex items-start gap-3">
               <div className="w-8 h-8 rounded-lg bg-zinc-100 dark:bg-zinc-800 flex items-center justify-center shrink-0">
                 <svg className="w-4 h-4 text-zinc-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">

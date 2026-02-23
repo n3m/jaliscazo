@@ -81,13 +81,13 @@ function MapInner() {
   const longPressRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
-    if (!localStorage.getItem("jaliscazo_welcome_seen")) {
+    if (!localStorage.getItem("jaliscazo_welcome_seen_v2")) {
       setShowWelcome(true);
     }
   }, []);
 
   const handleWelcomeClose = useCallback(() => {
-    localStorage.setItem("jaliscazo_welcome_seen", "1");
+    localStorage.setItem("jaliscazo_welcome_seen_v2", "1");
     setShowWelcome(false);
   }, []);
 
