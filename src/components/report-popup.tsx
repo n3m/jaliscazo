@@ -194,10 +194,10 @@ export function ReportPopup({ report, onClose, onVoteSuccess, onReportDeleted, o
   };
 
   const statusColors: Record<string, string> = {
-    unconfirmed: "bg-zinc-200 text-zinc-600",
-    confirmed: "bg-emerald-100 text-emerald-700 shadow-[0_0_8px_rgba(16,185,129,0.15)]",
-    denied: "bg-rose-100 text-rose-700",
-    expired: "bg-zinc-100 text-zinc-400",
+    unconfirmed: "bg-zinc-200 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400",
+    confirmed: "bg-emerald-100 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-400 shadow-[0_0_8px_rgba(16,185,129,0.15)]",
+    denied: "bg-rose-100 dark:bg-rose-950 text-rose-700 dark:text-rose-400",
+    expired: "bg-zinc-100 dark:bg-zinc-800 text-zinc-400 dark:text-zinc-500",
   };
 
   return (
@@ -214,10 +214,10 @@ export function ReportPopup({ report, onClose, onVoteSuccess, onReportDeleted, o
           visible ? "translate-y-0" : "translate-y-full"
         }`}
       >
-        <div className="bg-white border-t border-zinc-200 rounded-t-2xl p-5 pb-8 max-w-lg mx-auto shadow-[0_-4px_30px_rgba(0,0,0,0.1)]">
+        <div className="bg-white dark:bg-zinc-950 border-t border-zinc-200 dark:border-zinc-800 rounded-t-2xl p-5 pb-8 max-w-lg mx-auto shadow-[0_-4px_30px_rgba(0,0,0,0.1)]">
           {/* Handle */}
           <div className="flex justify-center mb-4">
-            <div className="w-10 h-1 rounded-full bg-zinc-300" />
+            <div className="w-10 h-1 rounded-full bg-zinc-300 dark:bg-zinc-700" />
           </div>
 
           {/* Header */}
@@ -227,7 +227,7 @@ export function ReportPopup({ report, onClose, onVoteSuccess, onReportDeleted, o
                 className={`w-4 h-4 rounded-full ${config.dot}`}
               />
               <div>
-                <h2 className="font-display font-bold text-zinc-900 text-lg uppercase tracking-wide">
+                <h2 className="font-display font-bold text-zinc-900 dark:text-zinc-100 text-lg uppercase tracking-wide">
                   {config.title}
                 </h2>
                 <p className="font-mono text-xs text-zinc-400">
@@ -246,7 +246,7 @@ export function ReportPopup({ report, onClose, onVoteSuccess, onReportDeleted, o
 
           {/* Description */}
           {report.description && (
-            <p className="font-mono text-base text-zinc-700 mb-4 leading-relaxed">
+            <p className="font-mono text-base text-zinc-700 dark:text-zinc-300 mb-4 leading-relaxed">
               {report.description}
             </p>
           )}
@@ -277,7 +277,7 @@ export function ReportPopup({ report, onClose, onVoteSuccess, onReportDeleted, o
           )}
 
           {/* Vote counts */}
-          <div className="flex items-center gap-6 mb-5 py-3 border-y border-zinc-200">
+          <div className="flex items-center gap-6 mb-5 py-3 border-y border-zinc-200 dark:border-zinc-800">
             <div className="flex items-center gap-2">
               <span className="font-mono text-xl font-bold text-emerald-600">
                 {report.confirmCount}
@@ -313,14 +313,14 @@ export function ReportPopup({ report, onClose, onVoteSuccess, onReportDeleted, o
               <button
                 onClick={() => handleVote("confirm")}
                 disabled={voting}
-                className="flex items-center justify-center gap-2 py-3.5 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-700 font-display font-bold text-base tracking-widest uppercase transition-all hover:bg-emerald-100 active:scale-95 disabled:opacity-50 min-h-[48px]"
+                className="flex items-center justify-center gap-2 py-3.5 rounded-xl bg-emerald-50 dark:bg-emerald-950 border border-emerald-200 dark:border-emerald-800 text-emerald-700 dark:text-emerald-300 font-display font-bold text-base tracking-widest uppercase transition-all hover:bg-emerald-100 dark:hover:bg-emerald-900 active:scale-95 disabled:opacity-50 min-h-[48px]"
               >
                 Confirmar
               </button>
               <button
                 onClick={() => handleVote("deny")}
                 disabled={voting}
-                className="flex items-center justify-center gap-2 py-3.5 rounded-xl bg-rose-50 border border-rose-200 text-rose-700 font-display font-bold text-base tracking-widest uppercase transition-all hover:bg-rose-100 active:scale-95 disabled:opacity-50 min-h-[48px]"
+                className="flex items-center justify-center gap-2 py-3.5 rounded-xl bg-rose-50 dark:bg-rose-950 border border-rose-200 dark:border-rose-800 text-rose-700 dark:text-rose-300 font-display font-bold text-base tracking-widest uppercase transition-all hover:bg-rose-100 dark:hover:bg-rose-900 active:scale-95 disabled:opacity-50 min-h-[48px]"
               >
                 Negar
               </button>
@@ -335,7 +335,7 @@ export function ReportPopup({ report, onClose, onVoteSuccess, onReportDeleted, o
 
           {/* Admin controls */}
           {isAdmin && !editing && (
-            <div className="mt-5 pt-4 border-t border-zinc-200">
+            <div className="mt-5 pt-4 border-t border-zinc-200 dark:border-zinc-800">
               <p className="font-mono text-[10px] text-zinc-400 uppercase tracking-widest mb-3">Admin</p>
               {deleting ? (
                 <div className="space-y-2">
@@ -361,7 +361,7 @@ export function ReportPopup({ report, onClose, onVoteSuccess, onReportDeleted, o
                 <div className="grid grid-cols-2 gap-2">
                   <button
                     onClick={() => setEditing(true)}
-                    className="py-2.5 rounded-xl bg-zinc-50 border border-zinc-200 text-zinc-600 font-display font-bold text-sm tracking-widest uppercase transition-all hover:bg-zinc-100 active:scale-95"
+                    className="py-2.5 rounded-xl bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-700 text-zinc-600 dark:text-zinc-400 font-display font-bold text-sm tracking-widest uppercase transition-all hover:bg-zinc-100 dark:hover:bg-zinc-800 active:scale-95"
                   >
                     Editar
                   </button>
@@ -378,7 +378,7 @@ export function ReportPopup({ report, onClose, onVoteSuccess, onReportDeleted, o
 
           {/* Admin edit form */}
           {isAdmin && editing && (
-            <div className="mt-5 pt-4 border-t border-zinc-200">
+            <div className="mt-5 pt-4 border-t border-zinc-200 dark:border-zinc-800">
               <p className="font-mono text-[10px] text-zinc-400 uppercase tracking-widest mb-3">Editar reporte</p>
               <div className="space-y-3">
                 <div>
@@ -386,7 +386,7 @@ export function ReportPopup({ report, onClose, onVoteSuccess, onReportDeleted, o
                   <select
                     value={editForm.type}
                     onChange={(e) => setEditForm((f) => ({ ...f, type: e.target.value }))}
-                    className="w-full px-3 py-2 rounded-lg border border-zinc-300 font-mono text-sm text-zinc-900 bg-white focus:outline-none focus:ring-2 focus:ring-zinc-400"
+                    className="w-full px-3 py-2 rounded-lg border border-zinc-300 dark:border-zinc-700 font-mono text-sm text-zinc-900 dark:text-zinc-100 bg-white dark:bg-zinc-900 focus:outline-none focus:ring-2 focus:ring-zinc-400 dark:focus:ring-zinc-600"
                   >
                     <option value="armed_confrontation">Balacera</option>
                     <option value="road_blockade">Narcobloqueo</option>
@@ -402,7 +402,7 @@ export function ReportPopup({ report, onClose, onVoteSuccess, onReportDeleted, o
                   <select
                     value={editForm.status}
                     onChange={(e) => setEditForm((f) => ({ ...f, status: e.target.value }))}
-                    className="w-full px-3 py-2 rounded-lg border border-zinc-300 font-mono text-sm text-zinc-900 bg-white focus:outline-none focus:ring-2 focus:ring-zinc-400"
+                    className="w-full px-3 py-2 rounded-lg border border-zinc-300 dark:border-zinc-700 font-mono text-sm text-zinc-900 dark:text-zinc-100 bg-white dark:bg-zinc-900 focus:outline-none focus:ring-2 focus:ring-zinc-400 dark:focus:ring-zinc-600"
                   >
                     <option value="unconfirmed">Sin confirmar</option>
                     <option value="confirmed">Confirmado</option>
@@ -416,7 +416,7 @@ export function ReportPopup({ report, onClose, onVoteSuccess, onReportDeleted, o
                     value={editForm.description}
                     onChange={(e) => setEditForm((f) => ({ ...f, description: e.target.value }))}
                     rows={3}
-                    className="w-full px-3 py-2 rounded-lg border border-zinc-300 font-mono text-sm text-zinc-900 resize-none focus:outline-none focus:ring-2 focus:ring-zinc-400"
+                    className="w-full px-3 py-2 rounded-lg border border-zinc-300 dark:border-zinc-700 font-mono text-sm text-zinc-900 dark:text-zinc-100 bg-white dark:bg-zinc-900 resize-none focus:outline-none focus:ring-2 focus:ring-zinc-400 dark:focus:ring-zinc-600"
                   />
                 </div>
                 <div>
@@ -425,7 +425,7 @@ export function ReportPopup({ report, onClose, onVoteSuccess, onReportDeleted, o
                     type="url"
                     value={editForm.sourceUrl}
                     onChange={(e) => setEditForm((f) => ({ ...f, sourceUrl: e.target.value }))}
-                    className="w-full px-3 py-2 rounded-lg border border-zinc-300 font-mono text-sm text-zinc-900 focus:outline-none focus:ring-2 focus:ring-zinc-400"
+                    className="w-full px-3 py-2 rounded-lg border border-zinc-300 dark:border-zinc-700 font-mono text-sm text-zinc-900 dark:text-zinc-100 bg-white dark:bg-zinc-900 focus:outline-none focus:ring-2 focus:ring-zinc-400 dark:focus:ring-zinc-600"
                   />
                 </div>
                 <div>
@@ -434,7 +434,7 @@ export function ReportPopup({ report, onClose, onVoteSuccess, onReportDeleted, o
                     type="datetime-local"
                     value={editForm.createdAt}
                     onChange={(e) => setEditForm((f) => ({ ...f, createdAt: e.target.value }))}
-                    className="w-full px-3 py-2 rounded-lg border border-zinc-300 font-mono text-sm text-zinc-900 focus:outline-none focus:ring-2 focus:ring-zinc-400"
+                    className="w-full px-3 py-2 rounded-lg border border-zinc-300 dark:border-zinc-700 font-mono text-sm text-zinc-900 dark:text-zinc-100 bg-white dark:bg-zinc-900 focus:outline-none focus:ring-2 focus:ring-zinc-400 dark:focus:ring-zinc-600"
                   />
                 </div>
                 <div>
@@ -443,14 +443,14 @@ export function ReportPopup({ report, onClose, onVoteSuccess, onReportDeleted, o
                     type="datetime-local"
                     value={editForm.lastActivityAt}
                     onChange={(e) => setEditForm((f) => ({ ...f, lastActivityAt: e.target.value }))}
-                    className="w-full px-3 py-2 rounded-lg border border-zinc-300 font-mono text-sm text-zinc-900 focus:outline-none focus:ring-2 focus:ring-zinc-400"
+                    className="w-full px-3 py-2 rounded-lg border border-zinc-300 dark:border-zinc-700 font-mono text-sm text-zinc-900 dark:text-zinc-100 bg-white dark:bg-zinc-900 focus:outline-none focus:ring-2 focus:ring-zinc-400 dark:focus:ring-zinc-600"
                   />
                 </div>
                 <div className="grid grid-cols-2 gap-2 pt-1">
                   <button
                     onClick={handleSaveEdit}
                     disabled={saving}
-                    className="py-2.5 rounded-xl bg-zinc-900 text-white font-display font-bold text-sm tracking-widest uppercase transition-all hover:bg-zinc-800 active:scale-95 disabled:opacity-50"
+                    className="py-2.5 rounded-xl bg-zinc-900 dark:bg-zinc-100 text-white dark:text-zinc-900 font-display font-bold text-sm tracking-widest uppercase transition-all hover:bg-zinc-800 dark:hover:bg-zinc-200 active:scale-95 disabled:opacity-50"
                   >
                     {saving ? "Guardando..." : "Guardar"}
                   </button>
@@ -467,7 +467,7 @@ export function ReportPopup({ report, onClose, onVoteSuccess, onReportDeleted, o
                       });
                     }}
                     disabled={saving}
-                    className="py-2.5 rounded-xl bg-zinc-50 border border-zinc-200 text-zinc-600 font-display font-bold text-sm tracking-widest uppercase transition-all hover:bg-zinc-100 active:scale-95 disabled:opacity-50"
+                    className="py-2.5 rounded-xl bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-700 text-zinc-600 dark:text-zinc-400 font-display font-bold text-sm tracking-widest uppercase transition-all hover:bg-zinc-100 dark:hover:bg-zinc-800 active:scale-95 disabled:opacity-50"
                   >
                     Cancelar
                   </button>

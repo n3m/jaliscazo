@@ -97,25 +97,25 @@ export function ReportForm({
           visible ? "translate-y-0" : "translate-y-full"
         }`}
       >
-        <div className="bg-white border-t border-zinc-200 rounded-t-2xl p-5 pb-8 max-w-lg mx-auto shadow-[0_-4px_30px_rgba(0,0,0,0.1)]">
+        <div className="bg-white dark:bg-zinc-950 border-t border-zinc-200 dark:border-zinc-800 rounded-t-2xl p-5 pb-8 max-w-lg mx-auto shadow-[0_-4px_30px_rgba(0,0,0,0.1)]">
           {/* Handle bar */}
           <div className="flex justify-center mb-4">
-            <div className="w-10 h-1 rounded-full bg-zinc-300" />
+            <div className="w-10 h-1 rounded-full bg-zinc-300 dark:bg-zinc-700" />
           </div>
 
           {/* Location */}
           <div className="mb-5">
-            <p className="font-mono text-xs text-zinc-400 tracking-widest uppercase mb-1">
+            <p className="font-mono text-xs text-zinc-400 dark:text-zinc-500 tracking-widest uppercase mb-1">
               Ubicaci&oacute;n
             </p>
-            <p className="font-mono text-sm text-zinc-700 truncate">
+            <p className="font-mono text-sm text-zinc-700 dark:text-zinc-300 truncate">
               {address || `${latitude.toFixed(5)}, ${longitude.toFixed(5)}`}
             </p>
           </div>
 
           {/* Type selection */}
           <div className="mb-5">
-            <p className="font-mono text-xs text-zinc-400 tracking-widest uppercase mb-3">
+            <p className="font-mono text-xs text-zinc-400 dark:text-zinc-500 tracking-widest uppercase mb-3">
               Tipo de reporte
             </p>
             <div className="grid grid-cols-2 gap-3">
@@ -124,7 +124,7 @@ export function ReportForm({
                 className={`flex flex-col items-center justify-center gap-2 p-4 rounded-xl border-2 transition-all min-h-[80px] active:scale-95 ${
                   type === "armed_confrontation"
                     ? "border-red-500 bg-red-50 shadow-[0_0_20px_rgba(239,68,68,0.12)]"
-                    : "border-zinc-200 bg-zinc-50 hover:border-zinc-300"
+                    : "border-zinc-200 dark:border-zinc-700 bg-zinc-50 dark:bg-zinc-900 hover:border-zinc-300 dark:hover:border-zinc-600"
                 }`}
               >
                 <span className="text-3xl">💥</span>
@@ -132,7 +132,7 @@ export function ReportForm({
                   className={`font-display text-base font-bold tracking-wide uppercase ${
                     type === "armed_confrontation"
                       ? "text-red-600"
-                      : "text-zinc-500"
+                      : "text-zinc-500 dark:text-zinc-400"
                   }`}
                 >
                   Balacera
@@ -144,7 +144,7 @@ export function ReportForm({
                 className={`flex flex-col items-center justify-center gap-2 p-4 rounded-xl border-2 transition-all min-h-[80px] active:scale-95 ${
                   type === "road_blockade"
                     ? "border-amber-500 bg-amber-50 shadow-[0_0_20px_rgba(245,158,11,0.12)]"
-                    : "border-zinc-200 bg-zinc-50 hover:border-zinc-300"
+                    : "border-zinc-200 dark:border-zinc-700 bg-zinc-50 dark:bg-zinc-900 hover:border-zinc-300 dark:hover:border-zinc-600"
                 }`}
               >
                 <span className="text-3xl">🚧</span>
@@ -152,7 +152,7 @@ export function ReportForm({
                   className={`font-display text-base font-bold tracking-wide uppercase ${
                     type === "road_blockade"
                       ? "text-amber-600"
-                      : "text-zinc-500"
+                      : "text-zinc-500 dark:text-zinc-400"
                   }`}
                 >
                   Narcobloqueo
@@ -164,7 +164,7 @@ export function ReportForm({
                 className={`flex flex-col items-center justify-center gap-2 p-4 rounded-xl border-2 transition-all min-h-[80px] active:scale-95 ${
                   type === "cartel_activity"
                     ? "border-violet-500 bg-violet-50 shadow-[0_0_20px_rgba(139,92,246,0.12)]"
-                    : "border-zinc-200 bg-zinc-50 hover:border-zinc-300"
+                    : "border-zinc-200 dark:border-zinc-700 bg-zinc-50 dark:bg-zinc-900 hover:border-zinc-300 dark:hover:border-zinc-600"
                 }`}
               >
                 <span className="text-3xl">🔫</span>
@@ -172,7 +172,7 @@ export function ReportForm({
                   className={`font-display text-base font-bold tracking-wide uppercase ${
                     type === "cartel_activity"
                       ? "text-violet-600"
-                      : "text-zinc-500"
+                      : "text-zinc-500 dark:text-zinc-400"
                   }`}
                 >
                   Cartel
@@ -184,7 +184,7 @@ export function ReportForm({
                 className={`flex flex-col items-center justify-center gap-2 p-4 rounded-xl border-2 transition-all min-h-[80px] active:scale-95 ${
                   type === "building_fire"
                     ? "border-orange-500 bg-orange-50 shadow-[0_0_20px_rgba(249,115,22,0.12)]"
-                    : "border-zinc-200 bg-zinc-50 hover:border-zinc-300"
+                    : "border-zinc-200 dark:border-zinc-700 bg-zinc-50 dark:bg-zinc-900 hover:border-zinc-300 dark:hover:border-zinc-600"
                 }`}
               >
                 <span className="text-3xl">🔥</span>
@@ -192,7 +192,7 @@ export function ReportForm({
                   className={`font-display text-base font-bold tracking-wide uppercase ${
                     type === "building_fire"
                       ? "text-orange-600"
-                      : "text-zinc-500"
+                      : "text-zinc-500 dark:text-zinc-400"
                   }`}
                 >
                   Quema
@@ -204,7 +204,7 @@ export function ReportForm({
                 className={`flex flex-col items-center justify-center gap-2 p-4 rounded-xl border-2 transition-all min-h-[80px] active:scale-95 ${
                   type === "looting"
                     ? "border-pink-500 bg-pink-50 shadow-[0_0_20px_rgba(236,72,153,0.12)]"
-                    : "border-zinc-200 bg-zinc-50 hover:border-zinc-300"
+                    : "border-zinc-200 dark:border-zinc-700 bg-zinc-50 dark:bg-zinc-900 hover:border-zinc-300 dark:hover:border-zinc-600"
                 }`}
               >
                 <span className="text-3xl">🚨</span>
@@ -212,7 +212,7 @@ export function ReportForm({
                   className={`font-display text-base font-bold tracking-wide uppercase ${
                     type === "looting"
                       ? "text-pink-600"
-                      : "text-zinc-500"
+                      : "text-zinc-500 dark:text-zinc-400"
                   }`}
                 >
                   Rapiña
@@ -224,7 +224,7 @@ export function ReportForm({
                 className={`flex flex-col items-center justify-center gap-2 p-4 rounded-xl border-2 transition-all min-h-[80px] active:scale-95 ${
                   type === "general_danger"
                     ? "border-slate-500 bg-slate-50 shadow-[0_0_20px_rgba(100,116,139,0.12)]"
-                    : "border-zinc-200 bg-zinc-50 hover:border-zinc-300"
+                    : "border-zinc-200 dark:border-zinc-700 bg-zinc-50 dark:bg-zinc-900 hover:border-zinc-300 dark:hover:border-zinc-600"
                 }`}
               >
                 <span className="text-3xl">⚠️</span>
@@ -232,7 +232,7 @@ export function ReportForm({
                   className={`font-display text-base font-bold tracking-wide uppercase ${
                     type === "general_danger"
                       ? "text-slate-600"
-                      : "text-zinc-500"
+                      : "text-zinc-500 dark:text-zinc-400"
                   }`}
                 >
                   Peligro
@@ -244,7 +244,7 @@ export function ReportForm({
                 className={`flex flex-col items-center justify-center gap-2 p-4 rounded-xl border-2 transition-all min-h-[80px] active:scale-95 ${
                   type === "criminal_activity"
                     ? "border-emerald-600 bg-emerald-50 shadow-[0_0_20px_rgba(5,150,105,0.12)]"
-                    : "border-zinc-200 bg-zinc-50 hover:border-zinc-300"
+                    : "border-zinc-200 dark:border-zinc-700 bg-zinc-50 dark:bg-zinc-900 hover:border-zinc-300 dark:hover:border-zinc-600"
                 }`}
               >
                 <span className="text-3xl">👹</span>
@@ -252,7 +252,7 @@ export function ReportForm({
                   className={`font-display text-base font-bold tracking-wide uppercase ${
                     type === "criminal_activity"
                       ? "text-emerald-600"
-                      : "text-zinc-500"
+                      : "text-zinc-500 dark:text-zinc-400"
                   }`}
                 >
                   Criminal
@@ -263,7 +263,7 @@ export function ReportForm({
 
           {/* Description */}
           <div className="mb-4">
-            <label className="font-mono text-xs text-zinc-400 tracking-widest uppercase block mb-2">
+            <label className="font-mono text-xs text-zinc-400 dark:text-zinc-500 tracking-widest uppercase block mb-2">
               Descripci&oacute;n (opcional)
             </label>
             <textarea
@@ -271,13 +271,13 @@ export function ReportForm({
               onChange={(e) => setDescription(e.target.value)}
               placeholder="&iquest;Qu&eacute; est&aacute; pasando?"
               rows={2}
-              className="w-full bg-zinc-50 border border-zinc-200 rounded-lg px-3 py-2 font-mono text-base text-zinc-800 placeholder:text-zinc-400 focus:outline-none focus:border-zinc-400 resize-none"
+              className="w-full bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-700 rounded-lg px-3 py-2 font-mono text-base text-zinc-800 dark:text-zinc-200 placeholder:text-zinc-400 dark:placeholder:text-zinc-600 focus:outline-none focus:border-zinc-400 dark:focus:border-zinc-500 resize-none"
             />
           </div>
 
           {/* Source URL */}
           <div className="mb-6">
-            <label className="font-mono text-xs text-zinc-400 tracking-widest uppercase block mb-2">
+            <label className="font-mono text-xs text-zinc-400 dark:text-zinc-500 tracking-widest uppercase block mb-2">
               Enlace fuente (opcional)
             </label>
             <input
@@ -285,7 +285,7 @@ export function ReportForm({
               value={sourceUrl}
               onChange={(e) => setSourceUrl(e.target.value)}
               placeholder="https://twitter.com/..."
-              className="w-full bg-zinc-50 border border-zinc-200 rounded-lg px-3 py-2 font-mono text-base text-zinc-800 placeholder:text-zinc-400 focus:outline-none focus:border-zinc-400"
+              className="w-full bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-700 rounded-lg px-3 py-2 font-mono text-base text-zinc-800 dark:text-zinc-200 placeholder:text-zinc-400 dark:placeholder:text-zinc-600 focus:outline-none focus:border-zinc-400 dark:focus:border-zinc-500"
             />
           </div>
 
@@ -295,7 +295,7 @@ export function ReportForm({
             disabled={!type || submitting}
             className={`w-full py-3.5 rounded-xl font-display font-bold text-base tracking-widest uppercase transition-all active:scale-[0.98] ${
               !type || submitting
-                ? "bg-zinc-200 text-zinc-400 cursor-not-allowed"
+                ? "bg-zinc-200 dark:bg-zinc-800 text-zinc-400 dark:text-zinc-600 cursor-not-allowed"
                 : type === "armed_confrontation"
                   ? "bg-red-600 text-white shadow-[0_4px_20px_rgba(239,68,68,0.3)] hover:bg-red-500"
                   : type === "cartel_activity"

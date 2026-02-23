@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo } from "react";
-import { Marker } from "react-leaflet";
+import { Marker, Tooltip } from "react-leaflet";
 import L from "leaflet";
 import type { Report } from "@/types";
 
@@ -29,6 +29,20 @@ const colorMap: Record<string, string> = {
   general_danger: "#64748b",
   criminal_activity: "#059669",
 };
+
+function getRelativeTime(dateStr: string): string {
+  const now = Date.now();
+  const then = new Date(dateStr).getTime();
+  const diffMs = now - then;
+  const minutes = Math.floor(diffMs / 60000);
+  const hours = Math.floor(minutes / 60);
+
+  if (minutes < 1) return "Hace menos de un minuto";
+  if (minutes === 1) return "Hace 1 minuto";
+  if (minutes < 60) return `Hace ${minutes} minutos`;
+  if (hours === 1) return "Hace 1 hora";
+  return `Hace ${hours} horas`;
+}
 
 export function ReportMarker({ report, onClick }: ReportMarkerProps) {
   const isExpired = report.status === "expired";
@@ -76,6 +90,10 @@ export function ReportMarker({ report, onClick }: ReportMarkerProps) {
           onClick(report);
         },
       }}
-    />
+    >
+      <Tooltip direction="top" offset={[0, -size / 2]}>
+        {getRelativeTime(report.createdAt)}
+      </Tooltip>
+    </Marker>
   );
 }

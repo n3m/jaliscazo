@@ -28,10 +28,10 @@ const statusLabels: Record<string, string> = {
 };
 
 const statusColors: Record<string, string> = {
-  unconfirmed: "bg-zinc-200 text-zinc-600",
-  confirmed: "bg-emerald-100 text-emerald-700",
-  denied: "bg-rose-100 text-rose-700",
-  expired: "bg-zinc-100 text-zinc-400",
+  unconfirmed: "bg-zinc-200 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400",
+  confirmed: "bg-emerald-100 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-400",
+  denied: "bg-rose-100 dark:bg-rose-950 text-rose-700 dark:text-rose-400",
+  expired: "bg-zinc-100 dark:bg-zinc-800 text-zinc-400 dark:text-zinc-500",
 };
 
 export function ReportsPanel({
@@ -56,18 +56,18 @@ export function ReportsPanel({
 
       {/* Panel */}
       <div
-        className={`fixed left-0 top-0 bottom-0 z-[1002] w-[80vw] max-w-[320px] bg-white shadow-[4px_0_30px_rgba(0,0,0,0.1)] flex flex-col transition-transform duration-300 ease-out ${
+        className={`fixed left-0 top-0 bottom-0 z-[1002] w-[80vw] max-w-[320px] bg-white dark:bg-zinc-950 shadow-[4px_0_30px_rgba(0,0,0,0.1)] dark:shadow-[4px_0_30px_rgba(0,0,0,0.4)] flex flex-col transition-transform duration-300 ease-out ${
           open ? "translate-x-0" : "-translate-x-full"
         }`}
       >
         {/* Header */}
-        <div className="flex items-center justify-between px-4 py-4 border-b border-zinc-200">
-          <h2 className="font-display font-bold text-base text-zinc-900 uppercase tracking-widest">
+        <div className="flex items-center justify-between px-4 py-4 border-b border-zinc-200 dark:border-zinc-800">
+          <h2 className="font-display font-bold text-base text-zinc-900 dark:text-zinc-100 uppercase tracking-widest">
             Reportes Recientes
           </h2>
           <button
             onClick={onClose}
-            className="flex items-center justify-center w-8 h-8 rounded-lg text-zinc-400 hover:text-zinc-600 hover:bg-zinc-100 transition-colors min-h-0 min-w-0"
+            className="flex items-center justify-center w-8 h-8 rounded-lg text-zinc-400 hover:text-zinc-600 dark:hover:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors min-h-0 min-w-0"
           >
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -84,7 +84,7 @@ export function ReportsPanel({
               </p>
             </div>
           ) : (
-            <div className="divide-y divide-zinc-100">
+            <div className="divide-y divide-zinc-100 dark:divide-zinc-800">
               {sorted.map((report) => {
                 const borderMap: Record<string, string> = {
                   armed_confrontation: "border-l-red-500",
@@ -108,13 +108,13 @@ export function ReportsPanel({
                   <button
                     key={report.id}
                     onClick={() => onSelectReport(report)}
-                    className={`w-full text-left px-4 py-3 hover:bg-zinc-50 active:bg-zinc-100 transition-colors cursor-pointer border-l-[3px] min-h-[44px] min-w-0 ${
+                    className={`w-full text-left px-4 py-3 hover:bg-zinc-50 dark:hover:bg-zinc-900 active:bg-zinc-100 dark:active:bg-zinc-800 transition-colors cursor-pointer border-l-[3px] min-h-[44px] min-w-0 ${
                       borderMap[report.type] ?? "border-l-orange-500"
                     }`}
                   >
                     {/* Type + time */}
                     <div className="flex items-center justify-between gap-2">
-                      <span className="font-display font-bold text-base text-zinc-900 uppercase tracking-wide">
+                      <span className="font-display font-bold text-base text-zinc-900 dark:text-zinc-100 uppercase tracking-wide">
                         {titleMap[report.type] ?? "Quema"}
                       </span>
                       <span className="font-mono text-xs text-zinc-400 shrink-0">

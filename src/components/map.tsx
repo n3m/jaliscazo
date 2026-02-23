@@ -15,6 +15,7 @@ import { ReportPopup } from "./report-popup";
 import { ReportsPanel } from "./reports-panel";
 import { WelcomeDialog } from "./welcome-dialog";
 import { AdminProvider, useAdmin } from "./admin-context";
+import { useTheme } from "./theme-context";
 import { AdminLoginDialog } from "./admin-login-dialog";
 
 const GUADALAJARA_CENTER: [number, number] = [20.6597, -103.3496];
@@ -59,8 +60,12 @@ export function Map() {
   );
 }
 
+const TILE_LIGHT = "https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png";
+const TILE_DARK = "https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png";
+
 function MapInner() {
   const { isAdmin, logout } = useAdmin();
+  const { isDark, toggle: toggleTheme } = useTheme();
   const [reports, setReports] = useState<Report[]>([]);
   const [selectedReport, setSelectedReport] = useState<Report | null>(null);
   const [formPosition, setFormPosition] = useState<{
@@ -189,7 +194,8 @@ function MapInner() {
       >
         <MapController mapRef={mapRef} />
         <TileLayer
-          url="https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png"
+          key={isDark ? "dark" : "light"}
+          url={isDark ? TILE_DARK : TILE_LIGHT}
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OSM</a> &copy; <a href="https://carto.com/">CARTO</a>'
           noWrap
         />
@@ -208,16 +214,31 @@ function MapInner() {
 
       {/* Top bar */}
       <div className="absolute top-0 left-0 right-0 z-[1000] pointer-events-none">
-        <div className="flex items-start justify-between px-4 py-3 bg-gradient-to-b from-white/95 to-transparent">
+        <div className="flex items-start justify-between px-4 py-3 bg-gradient-to-b from-white/95 dark:from-zinc-950/95 to-transparent">
           <div className="flex items-center gap-3 pointer-events-auto">
             <button
               onClick={() => setPanelOpen(true)}
-              className="flex items-center justify-center w-10 h-10 rounded-xl bg-white shadow-sm border border-zinc-200 text-zinc-600 hover:text-zinc-900 hover:shadow-md transition-all"
+              className="flex items-center justify-center w-10 h-10 rounded-xl bg-white dark:bg-zinc-900 shadow-sm border border-zinc-200 dark:border-zinc-700 text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-100 hover:shadow-md transition-all"
               aria-label="Ver lista de reportes"
             >
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
               </svg>
+            </button>
+            <button
+              onClick={toggleTheme}
+              className="flex items-center justify-center w-10 h-10 rounded-xl bg-white dark:bg-zinc-900 shadow-sm border border-zinc-200 dark:border-zinc-700 text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-100 hover:shadow-md transition-all"
+              aria-label={isDark ? "Cambiar a modo claro" : "Cambiar a modo oscuro"}
+            >
+              {isDark ? (
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+                </svg>
+              ) : (
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+                </svg>
+              )}
             </button>
             <div
               style={{ touchAction: "none" }}
@@ -235,15 +256,15 @@ function MapInner() {
               onPointerCancel={() => { if (longPressRef.current) clearTimeout(longPressRef.current); }}
             >
               <div className="flex items-center gap-1.5">
-                <h1 className="font-display text-2xl font-bold tracking-[0.2em] text-zinc-900 uppercase">
+                <h1 className="font-display text-2xl font-bold tracking-[0.2em] text-zinc-900 dark:text-zinc-100 uppercase">
                   Jaliscazo
                 </h1>
                 {isAdmin && <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />}
               </div>
-              <p className="font-mono text-xs text-zinc-500 tracking-widest uppercase">
+              <p className="font-mono text-xs text-zinc-500 dark:text-zinc-400 tracking-widest uppercase">
                 Reportes en tiempo real
               </p>
-              <a href="mailto:contacto@jaliscazo.com" className="font-mono text-xs text-zinc-400 hover:text-zinc-600 transition-colors">
+              <a href="mailto:contacto@jaliscazo.com" className="font-mono text-xs text-zinc-400 dark:text-zinc-500 hover:text-zinc-600 dark:hover:text-zinc-300 transition-colors">
                 Contacto: contacto@jaliscazo.com
               </a>
             </div>
@@ -251,43 +272,43 @@ function MapInner() {
           <div className="flex flex-col gap-1.5 pointer-events-auto">
             <div className="flex items-center gap-1.5">
               <span className="w-2.5 h-2.5 rounded-full bg-red-600 shadow-[0_0_6px_rgba(220,38,38,0.5)]" />
-              <span className="font-mono text-xs text-zinc-600 uppercase">
+              <span className="font-mono text-xs text-zinc-600 dark:text-zinc-400 uppercase">
                 Balacera
               </span>
             </div>
             <div className="flex items-center gap-1.5">
               <span className="w-2.5 h-2.5 rounded-full bg-amber-500 shadow-[0_0_6px_rgba(245,158,11,0.5)]" />
-              <span className="font-mono text-xs text-zinc-600 uppercase">
+              <span className="font-mono text-xs text-zinc-600 dark:text-zinc-400 uppercase">
                 Narcobloqueo
               </span>
             </div>
             <div className="flex items-center gap-1.5">
               <span className="w-2.5 h-2.5 rounded-full bg-violet-500 shadow-[0_0_6px_rgba(139,92,246,0.5)]" />
-              <span className="font-mono text-xs text-zinc-600 uppercase">
+              <span className="font-mono text-xs text-zinc-600 dark:text-zinc-400 uppercase">
                 Cartel
               </span>
             </div>
             <div className="flex items-center gap-1.5">
               <span className="w-2.5 h-2.5 rounded-full bg-orange-500 shadow-[0_0_6px_rgba(249,115,22,0.5)]" />
-              <span className="font-mono text-xs text-zinc-600 uppercase">
+              <span className="font-mono text-xs text-zinc-600 dark:text-zinc-400 uppercase">
                 Quema
               </span>
             </div>
             <div className="flex items-center gap-1.5">
               <span className="w-2.5 h-2.5 rounded-full bg-pink-500 shadow-[0_0_6px_rgba(236,72,153,0.5)]" />
-              <span className="font-mono text-xs text-zinc-600 uppercase">
+              <span className="font-mono text-xs text-zinc-600 dark:text-zinc-400 uppercase">
                 Rapiña
               </span>
             </div>
             <div className="flex items-center gap-1.5">
               <span className="w-2.5 h-2.5 rounded-full bg-slate-500 shadow-[0_0_6px_rgba(100,116,139,0.5)]" />
-              <span className="font-mono text-xs text-zinc-600 uppercase">
+              <span className="font-mono text-xs text-zinc-600 dark:text-zinc-400 uppercase">
                 Peligro
               </span>
             </div>
             <div className="flex items-center gap-1.5">
               <span className="w-2.5 h-2.5 rounded-full bg-emerald-600 shadow-[0_0_6px_rgba(5,150,105,0.5)]" />
-              <span className="font-mono text-xs text-zinc-600 uppercase">
+              <span className="font-mono text-xs text-zinc-600 dark:text-zinc-400 uppercase">
                 Criminal
               </span>
             </div>
@@ -297,12 +318,12 @@ function MapInner() {
 
       {/* Bottom status bar */}
       <div className="absolute bottom-0 left-0 right-0 z-[1000] pointer-events-none">
-        <div className="flex items-center justify-between px-4 py-2 bg-gradient-to-t from-white/95 to-transparent">
-          <span className="font-mono text-xs text-zinc-500">
+        <div className="flex items-center justify-between px-4 py-2 bg-gradient-to-t from-white/95 dark:from-zinc-950/95 to-transparent">
+          <span className="font-mono text-xs text-zinc-500 dark:text-zinc-400">
             {activeReports.length} reporte{activeReports.length !== 1 ? "s" : ""}{" "}
             activo{activeReports.length !== 1 ? "s" : ""}
           </span>
-          <span className="font-mono text-xs text-zinc-500">
+          <span className="font-mono text-xs text-zinc-500 dark:text-zinc-400">
             Actualizado hace{" "}
             <TimeSince date={lastUpdate} />
           </span>

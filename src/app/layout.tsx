@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Barlow_Condensed, Share_Tech_Mono } from "next/font/google";
 import Script from "next/script";
+import { ThemeProvider } from "@/components/theme-context";
 import "./globals.css";
 import "leaflet/dist/leaflet.css";
 
@@ -41,11 +42,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="es">
+    <html lang="es" suppressHydrationWarning>
       <body
-        className={`${barlowCondensed.variable} ${shareTechMono.variable} antialiased bg-[#f8f8f8] text-zinc-900 overflow-hidden`}
+        className={`${barlowCondensed.variable} ${shareTechMono.variable} antialiased bg-[#f8f8f8] dark:bg-[#0a0a0a] text-zinc-900 dark:text-zinc-100 overflow-hidden`}
       >
-        {children}
+        <ThemeProvider>
+          {children}
+        </ThemeProvider>
         {process.env.NEXT_PUBLIC_UMAMI_WEBSITE_ID && (
           <Script
             src={process.env.NEXT_PUBLIC_UMAMI_URL}
