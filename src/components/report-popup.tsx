@@ -231,7 +231,10 @@ export function ReportPopup({ report, onClose, onVoteSuccess, onReportDeleted, o
                   {config.title}
                 </h2>
                 <p className="font-mono text-xs text-zinc-400">
-                  {timeAgo(report.createdAt)}
+                  Reportado {timeAgo(report.createdAt)}
+                </p>
+                <p className="font-mono text-xs text-zinc-400">
+                  Última actualización {timeAgo(report.lastActivityAt)}
                 </p>
               </div>
             </div>

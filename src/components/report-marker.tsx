@@ -37,11 +37,11 @@ function getRelativeTime(dateStr: string): string {
   const minutes = Math.floor(diffMs / 60000);
   const hours = Math.floor(minutes / 60);
 
-  if (minutes < 1) return "Hace menos de un minuto";
-  if (minutes === 1) return "Hace 1 minuto";
-  if (minutes < 60) return `Hace ${minutes} minutos`;
-  if (hours === 1) return "Hace 1 hora";
-  return `Hace ${hours} horas`;
+  if (minutes < 1) return "hace menos de un minuto";
+  if (minutes === 1) return "hace 1 minuto";
+  if (minutes < 60) return `hace ${minutes} minutos`;
+  if (hours === 1) return "hace 1 hora";
+  return `hace ${hours} horas`;
 }
 
 export function ReportMarker({ report, onClick }: ReportMarkerProps) {
@@ -92,7 +92,9 @@ export function ReportMarker({ report, onClick }: ReportMarkerProps) {
       }}
     >
       <Tooltip direction="top" offset={[0, -size / 2]}>
-        {getRelativeTime(report.createdAt)}
+        <span>Reportado {getRelativeTime(report.createdAt)}</span>
+        <br />
+        <span>Última actualización {getRelativeTime(report.lastActivityAt)}</span>
       </Tooltip>
     </Marker>
   );
